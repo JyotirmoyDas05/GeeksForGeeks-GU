@@ -1,26 +1,156 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "Broadway-font";
+  src: url("/fonts/Broadway-font.woff2") format("woff2"),
+    url("/fonts/Broadway-font.woff") format("woff");
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces.woff2") format("woff2"),
+    url("/fonts/Fraunces.woff") format("woff");
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: "DM Mono";
+  src: url("/fonts/DM-Mono.woff2") format("woff2"),
+    url("/fonts/DM-Mono.woff") format("woff");
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Broadway-font", sans-serif;
+}
+
+img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 12rem;
+  line-height: 1;
+  color: #141414;
+}
+
+a {
+  text-decoration: none;
+  color: #141414;
+  font-family: "DM Mono", sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+nav {
+  position: fixed;
+  width: 100vw;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.nav-logo a {
+  font-family: "Fraunces", sans-serif;
+  font-size: 1.25rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+  background-color: #e3e4d8;
+}
+
+.page-header {
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.gallery {
+  width: 30%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 15rem 2rem;
+  gap: 2rem;
+}
+
+.members {
+  width: 30%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 15rem 2rem;
+  gap: 2rem;
+}
+
+.transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.block {
+  flex: 1;
+  height: 100%;
+  background-color: #222;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.logo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  background-color: #222;
+  opacity: 0;
+}
+
+.logo-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+@media (max-width: 1000px) {
+  h1 {
+    font-size: 3rem;
+  }
 }
