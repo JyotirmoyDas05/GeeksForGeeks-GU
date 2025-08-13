@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import  Nav from "@/components/Nav";
+import Nav from "@/components/Nav";
 import "./globals.css";
-
-
+import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Gfg Gu",
-  description: "Website for the Geeks for Geeks Community Charter of Guwahati University",
+  title: "GFG GU",
+  description:
+    "Website for the Geeks for Geeks Community Charter of Guwahati University",
 };
 
 export default function RootLayout({
@@ -17,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
-        {children}
+        <PageTransition>
+          <Nav />
+          {children}
+        </PageTransition>
       </body>
     </html>
   );
