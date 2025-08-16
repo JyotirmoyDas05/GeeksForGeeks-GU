@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import "./globals.css";
 import PageTransition from "@/components/PageTransition";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "GFG GU",
@@ -15,12 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <PageTransition>
-          <Nav />
-          {children}
-        </PageTransition>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <PageTransition>
+            <Nav />
+            {children}
+          </PageTransition>
+        </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
