@@ -198,4 +198,4 @@ For questions or support, please reach out through the contact page on the websi
 
 ---
 
-Built with ❤️ for the Google Developer Groups community at Gujarat University.
+Built with ❤️ for the GeeksforGeeks community at Guwahati University.
