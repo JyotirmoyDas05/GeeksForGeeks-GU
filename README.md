@@ -1,8 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GFG-GU Website
 
-## Getting Started
+A modern, responsive website for GeeksforGeeks Groups at Guwahati University (GFG-GU), built with Next.js 15 and cutting-edge web technologies.
 
-First, run the development server:
+## ✨ Features
+
+- **Modern Design**: Clean, responsive design with smooth animations
+- **Performance Optimized**: Built with Next.js 15 and React 19 for optimal performance
+- **Smooth Animations**: GSAP-powered animations and text effects
+- **Theme Support**: Dark/light theme toggle with next-themes
+- **Smooth Scrolling**: Lenis integration for butter-smooth scroll experience
+- **Gallery Section**: Showcase events and activities with an image gallery
+- **Member Directory**: Dedicated section for showcasing community members
+- **Contact Information**: Easy-to-find contact details and information
+
+## 🚀 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) with App Router
+- **Runtime**: React 19
+- **Styling**: [Tailwind CSS 4.1](https://tailwindcss.com/)
+- **Animations**: [GSAP 3.13](https://gsap.com/) with React integration
+- **Smooth Scrolling**: [Lenis](https://lenis.darkroom.engineering/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Theme Management**: [next-themes](https://github.com/pacocoursey/next-themes)
+- **TypeScript**: Full TypeScript support
+- **Analytics**: Vercel Analytics integration
+
+## 📁 Project Structure
+
+```
+gdg-gu/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Homepage
+│   ├── layout.tsx         # Root layout
+│   ├── globals.css        # Global styles
+│   ├── contact/           # Contact page
+│   ├── gallery/           # Gallery page
+│   └── members/           # Members page
+├── components/            # Reusable React components
+│   ├── Logo.tsx          # Logo component
+│   ├── Nav.tsx           # Navigation component
+│   ├── PageTransition.tsx # Page transition effects
+│   ├── text-animation.tsx # Text animation component
+│   ├── theme-provider.tsx # Theme context provider
+│   └── ThemeToggle.tsx   # Theme toggle button
+├── lib/                  # Utility functions
+│   └── utils.ts         # Utility helpers
+├── public/              # Static assets
+│   ├── fonts/          # Custom fonts (Broadway, DM Mono, Fraunces)
+│   └── *.jpg          # Gallery images
+└── ...config files
+```
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd gdg-gu
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +85,117 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build production application
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint for code quality
 
-## Learn More
+## 🎨 Customization
 
-To learn more about Next.js, take a look at the following resources:
+### Adding New Pages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create new pages in the `app/` directory following the App Router convention:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```tsx
+// app/new-page/page.tsx
+"use client";
 
-## Deploy on Vercel
+import ReactLenis from "lenis/react";
+import TextAnimation from "@/components/text-animation";
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export default function NewPage() {
+  return (
+    <ReactLenis root>
+      <div className="container">
+        <div className="page-header">
+          <TextAnimation>
+            <h1>New Page</h1>
+          </TextAnimation>
+        </div>
+      </div>
+    </ReactLenis>
+  );
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Updating Gallery
+
+Add new images to the `public/` directory and update the gallery component in `app/gallery/page.tsx`.
+
+### Theme Customization
+
+Modify the theme configuration in `components/theme-provider.tsx` and update Tailwind CSS classes throughout the application.
+
+## 🌟 Key Components
+
+- **TextAnimation**: GSAP-powered text animations for engaging content presentation
+- **Nav**: Main navigation component with responsive design
+- **ThemeToggle**: Smooth theme switching with animation
+- **PageTransition**: Smooth transitions between pages
+
+## 📱 Responsive Design
+
+The website is fully responsive and optimized for:
+
+- Desktop computers
+- Tablets
+- Mobile devices
+- Various screen sizes and orientations
+
+## 🔧 Performance Features
+
+- **Image Optimization**: Next.js Image component for optimized loading
+- **Font Optimization**: Custom fonts loaded efficiently
+- **Code Splitting**: Automatic code splitting for faster page loads
+- **Analytics**: Built-in performance monitoring with Vercel Analytics
+
+## 🚀 Deployment
+
+### Deploy on Vercel (Recommended)
+
+1. Push your code to a Git repository
+2. Import your project to [Vercel](https://vercel.com/new)
+3. Vercel will automatically detect Next.js and configure the build settings
+4. Your site will be deployed with a custom domain
+
+### Other Platforms
+
+The site can be deployed to any platform that supports Node.js applications:
+
+- Netlify
+- Railway
+- DigitalOcean App Platform
+- AWS Amplify
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [GeeksforGeeks](https://www.geeksforgeeks.org/) for inspiration
+- [Google Developer Groups](https://developers.google.com/community/gdg) program
+- Next.js team for the amazing framework
+- All contributors and community members
+
+## 📞 Contact
+
+For questions or support, please reach out through the contact page on the website or create an issue in this repository.
+
+---
+
+Built with ❤️ for the Google Developer Groups community at Gujarat University.
