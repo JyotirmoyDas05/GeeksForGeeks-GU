@@ -274,3 +274,18 @@ nav {
     @apply bg-background text-foreground;
   }
 }
+
+/* Text Animation Styles */
+[data-copy-wrapper] {
+  overflow: hidden;
+}
+
+[data-copy-wrapper] .line {
+  overflow: hidden;
+  display: block;
+}
+
+/* Ensure text doesn't disappear during animation */
+.gsap-split-text {
+  visibility: visible !important;
+}
