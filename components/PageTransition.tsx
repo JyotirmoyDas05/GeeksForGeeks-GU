@@ -82,11 +82,11 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
 
     tl.to(blocksRef.current, {
       scaleX: 1,
-      duration: 0.5,
-      stagger: 0.02,
+      duration: 0.3,
+      stagger: 0.015,
       ease: "power2.Out",
       transformOrigin: "left",
-    }).set(logoOverlayRef.current, { opacity: 1 }, "-=0.2");
+    }).set(logoOverlayRef.current, { opacity: 1 }, "-=0.15");
 
     const logoPath = logoRef.current?.querySelector("path");
     if (logoPath) {
@@ -102,24 +102,24 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
           logoPath,
           {
             strokeDashoffset: 0,
-            duration: 2,
+            duration: 1.2,
             ease: "power2.inOut",
           },
-          "-=0.5"
+          "-=0.3"
         )
         .to(
           logoPath,
           {
             fill: "black",
-            duration: 1,
+            duration: 0.6,
             ease: "power2.Out",
           },
-          "-=0.5"
+          "-=0.3"
         );
     }
     tl.to(logoOverlayRef.current, {
       opacity: 0,
-      duration: 0.25,
+      duration: 0.15,
       ease: "power2.Out",
     });
   };
@@ -129,8 +129,8 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
 
     gsap.to(blocksRef.current, {
       scaleX: 0,
-      duration: 0.4,
-      stagger: 0.02,
+      duration: 0.25,
+      stagger: 0.015,
       ease: "power2.Out",
       transformOrigin: "right",
       onComplete: () => {
