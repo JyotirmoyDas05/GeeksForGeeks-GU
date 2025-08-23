@@ -1,3 +1,21 @@
+/* Hide scrollbars but preserve scrolling */
+/* For modern browsers */
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* For WebKit browsers */
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+/* Prevent overflow caused by 100svh on mobile by ensuring content can scroll within body */
+body {
+  overflow: auto;
+}
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -38,8 +56,8 @@ body {
 
 img {
   max-width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto; /* ensure SVG keeps aspect ratio and doesn't overflow */
+  object-fit: contain;
 }
 
 h1 {
@@ -51,7 +69,7 @@ h1 {
 
 a {
   text-decoration: none;
-  color: var(--foreground);
+  color: var(--accent);
   font-family: "DM Mono", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
@@ -67,6 +85,7 @@ nav {
 .nav-logo a {
   font-family: "Fraunces", sans-serif;
   font-size: 1.25rem;
+  color: var(--accent);
 }
 
 .nav-links {
@@ -79,7 +98,9 @@ nav {
   width: 100%;
   height: 100%;
   min-height: 100svh;
-  background: var(--background);
+  /* Make background transparent so Three.js glyph field beneath is visible.
+    Body element already supplies the base background color. */
+  background: transparent;
   color: var(--foreground);
 }
 
@@ -90,6 +111,10 @@ nav {
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  /* push content down to sit below fixed navbar */
+  padding-top: calc(
+    6rem + 2rem
+  ); /* nav uses ~4-6rem height; add extra spacing */
 }
 
 .gallery {
@@ -151,6 +176,31 @@ nav {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  color: var(--foreground);
+}
+
+/* Three.js glyph background layering */
+.glyph-bg {
+  z-index: 0 !important; /* behind nav (z=1) and transitions (z=2) */
+}
+
+/* Only show the accent focus outline for keyboard focus (focus-visible).
+   Hide outlines for focus states that are not focus-visible (typically mouse clicks).
+   This preserves accessibility for keyboard users while preventing the green circular
+   border from appearing on mouse clicks*/
+:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible,
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 @media (max-width: 1000px) {
@@ -212,7 +262,10 @@ nav {
   --muted: oklch(0.97 0.001 106.424);
   --muted-foreground: oklch(0.553 0.013 58.071);
   --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
+  /* Primary accent for branding (requested) */
+  --accent: oklch(0.627 0.194 149.214);
+  /* Foreground when on accent backgrounds — choose a high-contrast value */
+  --accent-foreground: oklch(0.216 0.006 56.043); /* dark ink on light accent */
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.923 0.003 48.717);
   --input: oklch(0.923 0.003 48.717);
@@ -230,6 +283,8 @@ nav {
   --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
   --sidebar-border: oklch(0.923 0.003 48.717);
   --sidebar-ring: oklch(0.709 0.01 56.259);
+  /* inline logo cap stroke (light mode default: none) */
+  --inline-logo-cap-stroke: transparent;
 }
 
 .dark {
@@ -246,7 +301,11 @@ nav {
   --muted: oklch(0.268 0.007 34.298);
   --muted-foreground: oklch(0.709 0.01 56.259);
   --accent: oklch(0.268 0.007 34.298);
+  /* Ensure accent matches branding in dark mode as well */
+  --accent: oklch(0.627 0.194 149.214);
   --accent-foreground: oklch(0.985 0.001 106.423);
+  /* Inline logo text color for dark mode: lighter green for readability */
+  --inline-logo-text: #7fe3b1;
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
@@ -264,6 +323,8 @@ nav {
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+  /* cap stroke in dark mode */
+  --inline-logo-cap-stroke: #165d42;
 }
 
 @layer base {
@@ -273,6 +334,22 @@ nav {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Inline logo component: use currentColor for text paths; set color using variable */
+.inline-logo {
+  color: var(
+    --inline-logo-text,
+    #147b48
+  ); /* fallback to original green in light mode */
+}
+
+/* Apply the stroke to the cap path only when using the inline-logo wrapper
+   (keeps stroke scoped and dark-mode specific). Adjust stroke-width as needed. */
+.inline-logo .logo-cap {
+  stroke: var(--inline-logo-cap-stroke);
+  stroke-width: 2px;
+  stroke-linejoin: round;
 }
 
 /* Text Animation Styles */
