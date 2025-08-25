@@ -30,8 +30,8 @@ body {
 
 @font-face {
   font-family: "Fraunces";
-  src: url("/fonts/Fraunces.woff2") format("woff2"),
-    url("/fonts/Fraunces.woff") format("woff");
+  src: url("/fonts/fraunces.woff2") format("woff2"),
+    url("/fonts/fraunces.woff") format("woff");
   font-display: swap;
 }
 
