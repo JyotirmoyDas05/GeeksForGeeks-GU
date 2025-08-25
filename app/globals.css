@@ -93,6 +93,12 @@ nav {
   gap: 2rem;
 }
 
+@media (max-width: 767px) {
+  .nav-links {
+    display: none;
+  }
+}
+
 .container {
   position: relative;
   width: 100%;
@@ -170,12 +176,16 @@ nav {
 }
 
 .logo-container {
-  width: 200px;
-  height: 200px;
+  /* let the SVG render at its natural size (SVG sets width/height=160)
+     stack contents vertically so the snippet appears below the logo */
+  width: auto;
+  height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  gap: 6px;
+  padding: 0;
   color: var(--foreground);
 }
 

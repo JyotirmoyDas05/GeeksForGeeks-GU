@@ -1,9 +1,10 @@
 "use client";
 
 import Logo from "./Logo";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { gsap } from "gsap";
+import SnippetTicker from "./SnippetTicker";
 
 const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   const router = useRouter();
@@ -11,6 +12,8 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const logoOverlayRef = useRef(null);
   const logoRef = useRef<SVGSVGElement>(null);
+  const snippetContainerRef = useRef<HTMLDivElement>(null);
+  const [playSnippet, setPlaySnippet] = useState(false);
   const blocksRef = useRef<HTMLDivElement[]>([]);
   const isTransitioning = useRef(false);
 
@@ -80,6 +83,10 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       onComplete: () => router.push(url),
     });
 
+    if (snippetContainerRef.current) {
+      gsap.set(snippetContainerRef.current, { autoAlpha: 0 });
+    }
+
     tl.to(blocksRef.current, {
       scaleX: 1,
       duration: 0.3,
@@ -87,6 +94,16 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       ease: "power2.Out",
       transformOrigin: "left",
     }).set(logoOverlayRef.current, { opacity: 1 }, "-=0.15");
+
+    // fade in snippet container and enable ticker
+    if (snippetContainerRef.current) {
+      tl.to(
+        snippetContainerRef.current,
+        { autoAlpha: 1, duration: 0.18, ease: "power1.out" },
+        "-=0.15"
+      );
+      tl.add(() => setPlaySnippet(true));
+    }
 
     const logoPath = logoRef.current?.querySelector("path");
     if (logoPath) {
@@ -121,7 +138,7 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       opacity: 0,
       duration: 0.15,
       ease: "power2.Out",
-    });
+    }).add(() => setPlaySnippet(false));
   };
 
   const revealPage = () => {
@@ -145,8 +162,25 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       <div ref={logoOverlayRef} className="logo-overlay">
         <div className="logo-container">
           <Logo ref={logoRef} />
+          <div
+            ref={snippetContainerRef}
+            className="snippet-overlay"
+            aria-hidden={!playSnippet}
+          >
+            <SnippetTicker play={playSnippet} />
+          </div>
         </div>
       </div>
+      <style jsx>{`
+        .snippet-overlay {
+          margin-top: 6px;
+          opacity: 0;
+          pointer-events: none;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
+      `}</style>
       {children}
     </>
   );
