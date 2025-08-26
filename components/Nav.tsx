@@ -102,8 +102,8 @@ function Nav() {
             alignItems: "center",
           }}
         >
-          <Link href="/members">Members</Link>
-          <Link href="/gallery">Gallery</Link>
+          <Link href="/about">About</Link>
+          <Link href="/events">Events</Link>
           <Link href="/contact">Contact</Link>
         </div>
 
@@ -118,9 +118,9 @@ function Nav() {
           }}
         >
           <ThemeToggle />
-            <div className="max-[767px]:block hidden">
+          <div className="max-[767px]:block hidden">
             <Hamburger toggled={isOpen} toggle={setOpen} size={24} />
-            </div>
+          </div>
         </div>
 
         {/* Singular pill dropdown under navbar (mobile only) */}
@@ -162,18 +162,18 @@ function Nav() {
                   }}
                 >
                   <Link
-                    href="/members"
+                    href="/events"
                     onClick={() => setOpen(false)}
                     className="hover:opacity-80"
                   >
-                    Members
+                    Events
                   </Link>
                   <Link
-                    href="/gallery"
+                    href="/about"
                     onClick={() => setOpen(false)}
                     className="hover:opacity-80"
                   >
-                    Gallery
+                    About
                   </Link>
                   <Link
                     href="/contact"

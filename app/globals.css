@@ -132,7 +132,24 @@ nav {
   gap: 2rem;
 }
 
+.events {
+  width: 30%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 15rem 2rem;
+  gap: 2rem;
+}
+
 .members {
+  width: 30%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 15rem 2rem;
+  gap: 2rem;
+}
+.about {
   width: 30%;
   display: flex;
   margin: 0 auto;

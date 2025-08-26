@@ -9,8 +9,8 @@ A modern, responsive website for GeeksforGeeks Groups at Guwahati University (GF
 - **Smooth Animations**: GSAP-powered animations and text effects
 - **Theme Support**: Dark/light theme toggle with next-themes
 - **Smooth Scrolling**: Lenis integration for butter-smooth scroll experience
-- **Gallery Section**: Showcase events and activities with an image gallery
-- **Member Directory**: Dedicated section for showcasing community members
+- **Events Section**: Showcase events and activities with an image gallery
+- **About Page**: Dedicated section for showcasing community members and group information
 - **Contact Information**: Easy-to-find contact details and information
 
 ## 🚀 Tech Stack
@@ -34,8 +34,8 @@ gdg-gu/
 │   ├── layout.tsx         # Root layout
 │   ├── globals.css        # Global styles
 │   ├── contact/           # Contact page
-│   ├── gallery/           # Gallery page
-│   └── members/           # Members page
+│   ├── events/           # Events page
+│   └── about/             # about page
 ├── components/            # Reusable React components
 │   ├── Logo.tsx          # Logo component
 │   ├── Nav.tsx           # Navigation component
@@ -47,7 +47,7 @@ gdg-gu/
 │   └── utils.ts         # Utility helpers
 ├── public/              # Static assets
 │   ├── fonts/          # Custom fonts (Broadway, DM Mono, Fraunces)
-│   └── *.jpg          # Gallery images
+│   └── *.jpg          # Event images
 └── ...config files
 ```
 
@@ -124,9 +124,9 @@ export default function NewPage() {
 }
 ```
 
-### Updating Gallery
+### Updating Events
 
-Add new images to the `public/` directory and update the gallery component in `app/gallery/page.tsx`.
+Add new images to the `public/` directory and update the events component in `app/events/page.tsx`.
 
 ### Theme Customization
 

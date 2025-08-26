@@ -11,31 +11,31 @@ function page() {
         <div className="container">
           <div className="page-header">
             <TextAnimation>
-              <h1>Gallery</h1>
+              <h1>Events</h1>
             </TextAnimation>
           </div>
-          <div className="gallery">
+          <div className="events">
             <Image
               src="/img_(1).jpg"
-              alt="Gallery Image 1"
+              alt="Event Image 1"
               width={400}
               height={300}
             />
             <Image
               src="/img_(2).jpg"
-              alt="Gallery Image 2"
+              alt="Event Image 2"
               width={400}
               height={300}
             />
             <Image
               src="/img_(3).jpg"
-              alt="Gallery Image 3"
+              alt="Event Image 3"
               width={400}
               height={300}
             />
             <Image
               src="/img_(4).jpg"
-              alt="Gallery Image 4"
+              alt="Event Image 4"
               width={400}
               height={300}
             />
