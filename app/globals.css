@@ -1,7 +1,12 @@
 /* Hide scrollbars but preserve scrolling */
-/* For modern browsers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
+  margin: 0;
+  padding: 0;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
 }
@@ -14,8 +19,9 @@ body {
 
 /* Prevent overflow caused by 100svh on mobile by ensuring content can scroll within body */
 body {
-  overflow: auto;
+  overflow: hidden;
 }
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -50,13 +56,11 @@ body {
 
 body {
   font-family: "Broadway-font", sans-serif;
-  background: var(--background);
-  color: var(--foreground);
 }
 
 img {
   max-width: 100%;
-  height: auto; /* ensure SVG keeps aspect ratio and doesn't overflow */
+  height: auto;
   object-fit: contain;
 }
 
@@ -64,12 +68,10 @@ h1 {
   text-transform: uppercase;
   font-size: 12rem;
   line-height: 1;
-  color: var(--foreground);
 }
 
 a {
   text-decoration: none;
-  color: var(--accent);
   font-family: "DM Mono", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
@@ -85,7 +87,6 @@ nav {
 .nav-logo a {
   font-family: "Fraunces", sans-serif;
   font-size: 1.25rem;
-  color: var(--accent);
 }
 
 .nav-links {
@@ -104,10 +105,7 @@ nav {
   width: 100%;
   height: 100%;
   min-height: 100svh;
-  /* Make background transparent so Three.js glyph field beneath is visible.
-    Body element already supplies the base background color. */
   background: transparent;
-  color: var(--foreground);
 }
 
 .page-header {
@@ -117,39 +115,10 @@ nav {
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  /* push content down to sit below fixed navbar */
-  padding-top: calc(
-    6rem + 2rem
-  ); /* nav uses ~4-6rem height; add extra spacing */
+  padding-top: calc(6rem + 2rem);
 }
 
-.gallery {
-  width: 30%;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-  padding: 15rem 2rem;
-  gap: 2rem;
-}
-
-.events {
-  width: 30%;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-  padding: 15rem 2rem;
-  gap: 2rem;
-}
-
-.members {
-  width: 30%;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-  padding: 15rem 2rem;
-  gap: 2rem;
-}
-.about {
+.gallery, .events, .members, .about {
   width: 30%;
   display: flex;
   margin: 0 auto;
@@ -193,8 +162,6 @@ nav {
 }
 
 .logo-container {
-  /* let the SVG render at its natural size (SVG sets width/height=160)
-     stack contents vertically so the snippet appears below the logo */
   width: auto;
   height: auto;
   display: flex;
@@ -203,18 +170,12 @@ nav {
   align-items: center;
   gap: 6px;
   padding: 0;
-  color: var(--foreground);
 }
 
-/* Three.js glyph background layering */
 .glyph-bg {
-  z-index: 0 !important; /* behind nav (z=1) and transitions (z=2) */
+  z-index: 0 !important;
 }
 
-/* Only show the accent focus outline for keyboard focus (focus-visible).
-   Hide outlines for focus states that are not focus-visible (typically mouse clicks).
-   This preserves accessibility for keyboard users while preventing the green circular
-   border from appearing on mouse clicks*/
 :focus:not(:focus-visible),
 a:focus:not(:focus-visible),
 button:focus:not(:focus-visible),
@@ -226,7 +187,7 @@ button:focus:not(:focus-visible),
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #22c55e;
   outline-offset: 2px;
 }
 
@@ -234,149 +195,6 @@ button:focus-visible,
   h1 {
     font-size: 3rem;
   }
-}
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-:root {
-  --radius: 0.625rem;
-  --background: oklch(91.48% 0.016 110.57);
-  --foreground: oklch(19.13% 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  /* Primary accent for branding (requested) */
-  --accent: oklch(0.627 0.194 149.214);
-  /* Foreground when on accent backgrounds — choose a high-contrast value */
-  --accent-foreground: oklch(0.216 0.006 56.043); /* dark ink on light accent */
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
-  /* inline logo cap stroke (light mode default: none) */
-  --inline-logo-cap-stroke: transparent;
-}
-
-.dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 106.423);
-  --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
-  --popover: oklch(0.216 0.006 56.043);
-  --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.923 0.003 48.717);
-  --primary-foreground: oklch(0.216 0.006 56.043);
-  --secondary: oklch(0.268 0.007 34.298);
-  --secondary-foreground: oklch(0.985 0.001 106.423);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  --accent: oklch(0.268 0.007 34.298);
-  /* Ensure accent matches branding in dark mode as well */
-  --accent: oklch(0.627 0.194 149.214);
-  --accent-foreground: oklch(0.985 0.001 106.423);
-  /* Inline logo text color for dark mode: lighter green for readability */
-  --inline-logo-text: #7fe3b1;
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
-  /* cap stroke in dark mode */
-  --inline-logo-cap-stroke: #165d42;
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Inline logo component: use currentColor for text paths; set color using variable */
-.inline-logo {
-  color: var(
-    --inline-logo-text,
-    #147b48
-  ); /* fallback to original green in light mode */
-}
-
-/* Apply the stroke to the cap path only when using the inline-logo wrapper
-   (keeps stroke scoped and dark-mode specific). Adjust stroke-width as needed. */
-.inline-logo .logo-cap {
-  stroke: var(--inline-logo-cap-stroke);
-  stroke-width: 2px;
-  stroke-linejoin: round;
 }
 
 /* Text Animation Styles */
@@ -389,7 +207,6 @@ button:focus-visible,
   display: block;
 }
 
-/* Ensure text doesn't disappear during animation */
 .gsap-split-text {
   visibility: visible !important;
 }

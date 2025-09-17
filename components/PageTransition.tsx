@@ -13,6 +13,7 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   const logoOverlayRef = useRef(null);
   const logoRef = useRef<SVGSVGElement>(null);
   const snippetContainerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [playSnippet, setPlaySnippet] = useState(false);
   const blocksRef = useRef<HTMLDivElement[]>([]);
   const isTransitioning = useRef(false);
@@ -32,7 +33,6 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
     };
 
     createBlocks();
-
     gsap.set(blocksRef.current, { scaleX: 0, transformOrigin: "left" });
 
     if (logoRef.current) {
@@ -75,13 +75,22 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
         link.removeEventListener("click", clickHandlers[i]);
       });
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, pathname]);
 
   const coverPage = (url: string) => {
     const tl = gsap.timeline({
       onComplete: () => router.push(url),
     });
+
+    // Blur and lower z-index of current page content
+    if (contentRef.current) {
+      tl.to(contentRef.current, {
+        filter: "blur(8px)",
+        scale: 0.95,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    }
 
     if (snippetContainerRef.current) {
       gsap.set(snippetContainerRef.current, { autoAlpha: 0 });
@@ -95,7 +104,6 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       transformOrigin: "left",
     }).set(logoOverlayRef.current, { opacity: 1 }, "-=0.15");
 
-    // fade in snippet container and enable ticker
     if (snippetContainerRef.current) {
       tl.to(
         snippetContainerRef.current,
@@ -134,6 +142,7 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
           "-=0.3"
         );
     }
+    
     tl.to(logoOverlayRef.current, {
       opacity: 0,
       duration: 0.15,
@@ -143,6 +152,14 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
 
   const revealPage = () => {
     gsap.set(blocksRef.current, { scaleX: 1, transformOrigin: "right" });
+
+    // Reset content styles for new page
+    if (contentRef.current) {
+      gsap.set(contentRef.current, {
+        filter: "blur(0px)",
+        scale: 1,
+      });
+    }
 
     gsap.to(blocksRef.current, {
       scaleX: 0,
@@ -171,6 +188,12 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
           </div>
         </div>
       </div>
+      
+      {/* Wrap children in a ref for transition effects */}
+      <div ref={contentRef} style={{ position: 'relative', zIndex: 1 }}>
+        {children}
+      </div>
+      
       <style jsx>{`
         .snippet-overlay {
           margin-top: 6px;
@@ -181,7 +204,6 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
           width: 100%;
         }
       `}</style>
-      {children}
     </>
   );
 };

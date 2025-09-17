@@ -5,11 +5,12 @@ import PageTransition from "@/components/PageTransition";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
 import CodeGlyphField from "@/components/CodeGlyphField";
+import ReactLenis from "lenis/react";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "GFG GU Student Chapter ",
-  description:
-    "Website for the Geeks for Geeks Community Charter of Guwahati University",
+  description: "Website for the Geeks for Geeks Community Charter of Guwahati University",
 };
 
 export default function RootLayout({
@@ -20,14 +21,26 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <CodeGlyphField className="glyph-bg" />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <PageTransition>
-            <Nav />
-            {children}
-          </PageTransition>
+          <CodeGlyphField className="glyph-bg" />
+           <CodeGlyphField className="glyph-bg" />
+            <CodeGlyphField className="glyph-bg" />
+             <CodeGlyphField className="glyph-bg" />
+              <CodeGlyphField className="glyph-bg" />
+               <CodeGlyphField className="glyph-bg" />
+          <ReactLenis root>
+            <PageTransition>
+              {children}
+              <Nav />
+            </PageTransition>
+            <Analytics />
+          </ReactLenis>
+          
+          {/* Sticky Footer */}
+          <div className="fixed bottom-0 left-0 right-0 z-[100]">
+            <Footer />
+          </div>
         </ThemeProvider>
-        <Analytics />
       </body>
     </html>
   );
