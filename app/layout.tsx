@@ -23,11 +23,11 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CodeGlyphField className="glyph-bg" />
-           <CodeGlyphField className="glyph-bg" />
-            <CodeGlyphField className="glyph-bg" />
-             <CodeGlyphField className="glyph-bg" />
-              <CodeGlyphField className="glyph-bg" />
-               <CodeGlyphField className="glyph-bg" />
+          <CodeGlyphField className="glyph-bg" />
+          <CodeGlyphField className="glyph-bg" />
+          <CodeGlyphField className="glyph-bg" />
+          <CodeGlyphField className="glyph-bg" />
+          <CodeGlyphField className="glyph-bg" />
           <ReactLenis root>
             <PageTransition>
               {children}
@@ -36,8 +36,8 @@ export default function RootLayout({
             <Analytics />
           </ReactLenis>
           
-          {/* Sticky Footer */}
-          <div className="fixed bottom-0 left-0 right-0 z-[100]">
+          {/* Single Footer with responsive positioning */}
+          <div className="relative md:fixed md:bottom-0 md:left-0 md:right-0 md:z-[100]">
             <Footer />
           </div>
         </ThemeProvider>
