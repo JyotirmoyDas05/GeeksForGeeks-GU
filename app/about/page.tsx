@@ -1,27 +1,22 @@
 "use client";
 
 import ReactLenis from "lenis/react";
-import TextAnimation from "@/components/text-animation";
+import CodeGlyphField from "@/components/CodeGlyphField";
+import AboutHero from "@/components/AboutHero";
+import Footer from "@/components/Footer";
 
-function page() {
+export default function About() {
   return (
     <>
-      <ReactLenis root>
-        <div className="container">
-          <div className="page-header">
-            <TextAnimation>
-              <h1>About</h1>
-            </TextAnimation>
-            <p className="mt-6 max-w-prose text-lg text-muted-foreground">
-              Welcome to the GeeksForGeeks - GU chapter. This page provides a
-              short overview about our chapter, what we do, and how to get
-              involved.
-            </p>
-          </div>
+      <CodeGlyphField className="glyph-bg" />
+
+        <div className="min-h-screen flex flex-col">
+          <main className="flex-grow">
+            <AboutHero />
+          </main>
+          <Footer />
         </div>
-      </ReactLenis>
+
     </>
   );
 }
-
-export default page;

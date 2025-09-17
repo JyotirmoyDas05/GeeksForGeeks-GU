@@ -104,7 +104,7 @@ function Nav() {
         >
           <Link href="/about">About</Link>
           <Link href="/events">Events</Link>
-          <Link href="/contact">Contact</Link>
+          <Link href="/members">Members</Link>
         </div>
 
         {/* Right side */}

@@ -3,36 +3,31 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
-import {
-  useModeAnimation,
-  ThemeAnimationType,
-} from "react-theme-switch-animation";
 
 export default function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="w-[34px] h-[34px] p-1 rounded-md bg-transparent" />
+    );
+  }
+
   const isDark = resolvedTheme === "dark";
 
-  // Sync animation hook with actual theme
-  const { ref, toggleSwitchTheme } = useModeAnimation({
-    animationType: ThemeAnimationType.CIRCLE,
-    duration: 500,
-    isDarkMode: isDark,
-  });
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
-  // Custom handler that triggers animation and syncs with next-themes
-  const handleThemeToggle = async () => {
-    await toggleSwitchTheme();
+  const handleToggle = () => {
     setTheme(isDark ? "light" : "dark");
   };
 
   return (
     <button
-      ref={ref}
-      onClick={handleThemeToggle}
+      onClick={handleToggle}
       className={`p-1 transition-colors duration-200 rounded-md ${
         isDark
           ? "text-gray-400 hover:text-white"

@@ -1,6 +1,19 @@
-import { redirect } from "next/navigation";
+"use client";
 
-export default function Page() {
-  // Permanent redirect from /members to /about
-  redirect("/about");
+import ReactLenis from "lenis/react";
+import CodeGlyphField from "@/components/CodeGlyphField";
+import MembersSection from "@/components/MembersSection";
+import Footer from "@/components/Footer";
+
+export default function Members() {
+  return (
+    <>
+      <CodeGlyphField className="glyph-bg" />
+        <div className="min-h-screen">
+          <MembersSection />
+          <Footer />
+        </div>
+
+    </>
+  );
 }
