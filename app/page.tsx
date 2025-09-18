@@ -10,6 +10,7 @@ export default function Home() {
   return (
     <>
       <main className="pb-96">
+        
         <HeroSection />
         <EventsSection />
         <AboutHero />
