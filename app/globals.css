@@ -18,6 +18,7 @@ body {
 }
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -49,7 +50,7 @@ body {
 }
 
 body {
-  font-family: "Broadway-font", sans-serif;
+  font-family: "Manrope", sans-serif;
   background: var(--background);
   color: var(--foreground);
 }
@@ -133,12 +134,14 @@ nav {
 }
 
 .events {
-  width: 30%;
+  width: 80%;
+  max-width: 1200px;
   display: flex;
   margin: 0 auto;
   flex-direction: column;
   padding: 15rem 2rem;
   gap: 2rem;
+  align-items: center;
 }
 
 .members {

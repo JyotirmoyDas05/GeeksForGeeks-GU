@@ -10,7 +10,7 @@ function page() {
         <div className="container">
           <div className="page-header">
             <TextAnimation>
-              <h1>About</h1>
+              <h1 style={{ fontFamily: "Broadway-font" }}>About</h1>
             </TextAnimation>
             <p className="mt-6 max-w-prose text-lg text-muted-foreground">
               Welcome to the GeeksForGeeks - GU chapter. This page provides a
