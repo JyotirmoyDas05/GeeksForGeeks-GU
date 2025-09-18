@@ -47,7 +47,7 @@ export default function EventsSection() {
                 rel="noopener noreferrer"
                 className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-200"
               >
-                Join Now!!
+                Register Now
               </a>
             </div>
           </div>
