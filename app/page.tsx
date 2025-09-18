@@ -2,7 +2,7 @@
 
 import HeroSection from '@/components/HeroSection';
 import EventsSection from '@/components/EventSection';
-
+import Footer from '@/components/Footer';
 import AboutHero from "@/components/AboutHero";
 import HomeTeamSection from '@/components/membersMini';
 

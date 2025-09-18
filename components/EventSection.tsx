@@ -11,7 +11,6 @@ export default function EventsSection() {
       description: 'Event details',
     },
   ];
-  console.log("events:", events);
 
   return (
     <section className="w-full py-6 px-4"> {/* Changed from py-12 to py-6 */}

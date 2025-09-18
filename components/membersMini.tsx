@@ -97,7 +97,7 @@ export default function HomeTeamSection() {
           {/* First Row - Main Leadership (2 items, larger cards) */}
           <div className="flex justify-center">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full max-w-4xl">
-              {keyLeadership.slice(0, 2).map((member:any, index:number) => (
+              {keyLeadership.slice(0, 2).map((member, index) => (
                 <LeaderCard key={index} member={member} isMainLead={true} />
               ))}
             </div>
