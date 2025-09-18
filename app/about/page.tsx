@@ -1,5 +1,6 @@
 "use client";
 
+import ReactLenis from "lenis/react";
 import CodeGlyphField from "@/components/CodeGlyphField";
 import AboutHero from "@/components/AboutHero";
 import Footer from "@/components/Footer";
