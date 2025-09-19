@@ -1,18 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import ReactLenis from "lenis/react";
 import TextAnimation from "@/components/text-animation";
 import InlineLogo from "@/components/InlineLogo";
 import TeamSection from "@/components/TeamSection";
 import Image from "next/image";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export default function Home() {
   return (
@@ -32,28 +25,32 @@ export default function Home() {
           {/* Hero container constrained for readability */}
           <section
             className={[
-              "w-full max-w-[100rem]",
-              // hero should fill viewport height while allowing nav overlay
-              "min-h-[100svh]",
-              // center content naturally
+              "w-full",
+              // limit readable width; still fluid for wide screens
+              "max-w-[100rem]",
+              // ensure hero takes up more than full viewport height to push motto section below fold
+              "min-h-[calc(120svh)]",
+              // use flex to center hero content in the viewport
               "flex flex-col items-center justify-center",
-              // internal horizontal padding mirrors main
-              "px-4 sm:px-6 md:px-8",
-              // provide top padding so content never hides under nav
-              "pt-28 sm:pt-32",
-              // subtle bottom padding so first scroll feels smooth
-              "pb-16 sm:pb-24",
+              // position relative for absolute positioning of content
+              "relative",
             ].join(" ")}
           >
+            {/* Centered content container */}
             <div
               className={[
+                // absolute positioning to center in viewport regardless of section height
+                "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                // account for navbar height
+                "mt-[calc(2rem)] sm:mt-[calc(1rem)] md:mt-[calc(0rem)]",
+                // stack logo + heading vertically and center
                 "flex flex-col items-center justify-center text-center",
-                // responsive gap
-                "gap-5 sm:gap-7 md:gap-9",
-                // width constraints
-                "w-full max-w-5xl",
-                // smooth entrance spacing
-                "mx-auto",
+                // keep a bit of gap that scales with screen
+                "gap-4 sm:gap-6 md:gap-8",
+                // prevent overflow on very narrow devices
+                "w-full max-w-[90rem]",
+                // ensure content doesn't overflow viewport width
+                "px-4 sm:px-6 md:px-8",
               ].join(" ")}
             >
               <TextAnimation>
@@ -73,13 +70,24 @@ export default function Home() {
                   {/* Responsive heading: fluid + safe line-height */}
                   <h1
                     className={[
-                      // refined clamp to avoid lateral clipping on ultra‑narrow devices
-                      "text-[clamp(1.9rem,7.2vw,4.25rem)]",
-                      "leading-[1.07] font-bold tracking-tight",
-                      "break-words max-w-[22ch] sm:max-w-[28ch] md:max-w-[32ch]",
-                      "text-center mx-auto px-1",
+                      // fluid type using clamp; Tailwind doesn't yet expose arbitrary clamp tokens for font-size without brackets
+                      "text-[clamp(2rem,8vw,5rem)]",
+                      // strong but not too tight line height
+                      "leading-[1.05]",
+                      // weight and tracking for a hero feel
+                      "font-bold tracking-tight",
+                      // ensure no overflow on tiny widths
+                      "break-words",
+                      // prevent accidental horizontal scroll
+                      "max-w-[min(95ch,100%)]",
+                      // center the text explicitly
+                      "text-center mx-auto",
                     ].join(" ")}
-                    style={{ fontFamily: "Broadway-font" }}
+                    // extra fallback if some older browser ignores the arbitrary value
+                    style={{
+                      fontSize: "clamp(2rem, 8vw, 5rem)",
+                      fontFamily: "Broadway-font",
+                    }}
                   >
                     GeeksforGeeks
                   </h1>
@@ -87,8 +95,6 @@ export default function Home() {
               </TextAnimation>
             </div>
           </section>
-          {/* Spacer to ensure Motto begins after initial fold without awkward huge hero height */}
-          <div className="h-12 sm:h-16 md:h-20" aria-hidden="true" />
           {/* Our Motto Section */}
           <MottoSection />
           {/* Meet our Team Section */}
@@ -99,119 +105,29 @@ export default function Home() {
   );
 }
 
-// Animated Motto Heading Component
-function AnimatedMottoHeading() {
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (!headingRef.current) return;
-
-    const heading = headingRef.current;
-    const words = heading.querySelectorAll(".word");
-
-    // Set initial state - words start below and invisible
-    gsap.set(words, {
-      y: 100,
-      opacity: 0,
-    });
-
-    // Create the scroll-triggered animation
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: heading,
-        start: "top 85%",
-        end: "top 50%",
-        scrub: false,
-        toggleActions: "play none none reverse",
-        // Refresh on resize for responsive behavior
-        invalidateOnRefresh: true,
-      },
-    });
-
-    // Animate words in sequence
-    tl.to(words, {
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "back.out(1.7)",
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === heading) {
-          trigger.kill();
-        }
-      });
-    };
-  }, []);
-
-  return (
-    <h2
-      ref={headingRef}
-      className={[
-        "font-bold leading-tight tracking-tight",
-        "text-3xl sm:text-4xl md:text-5xl",
-      ].join(" ")}
-    >
-      {/* Screen reader text for accessibility */}
-      <span className="sr-only">Our Motto</span>
-      <span aria-hidden="true">
-        <span className="word inline-block">Our</span>{" "}
-        <span className="word inline-block">
-          <span className="text-[#0f9d58]">Motto</span>
-        </span>
-      </span>
-    </h2>
-  );
-}
-
 // Motto Section
 function MottoSection() {
   return (
-    <section
-      className={[
-        "w-full max-w-[95rem] mx-auto",
-        // layout: stack then row
-        "flex flex-col md:flex-row items-center md:items-start justify-between",
-        // spacing tuned per breakpoint
-        "gap-8 sm:gap-10 md:gap-14",
-        // vertical rhythm
-        "py-10 sm:py-14 md:py-20",
-        // horizontal padding for narrow screens
-        "px-4 sm:px-6 md:px-8",
-        "text-foreground relative",
-      ].join(" ")}
-    >
-      <div
-        className={[
-          "flex-1 flex flex-col items-start text-left",
-          "gap-4 sm:gap-5 md:gap-6",
-          // limit paragraph width for readability
-          "max-w-xl",
-        ].join(" ")}
-      >
-        <AnimatedMottoHeading />
-        <p
-          className={[
-            "text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed",
-          ].join(" ")}
-        >
+    <section className="w-full max-w-[100rem] flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 text-foreground relative">
+      <div className="flex-1 flex flex-col items-start justify-center text-left gap-3 sm:gap-4 md:gap-6 w-full">
+        <TextAnimation>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-2 leading-tight">
+            Our <span className="text-[#0f9d58]">Motto</span>
+          </h2>
+        </TextAnimation>
+        <p className="text-base sm:text-lg md:text-xl max-w-full md:max-w-xl text-muted-foreground leading-relaxed">
           Empowering students to learn, grow, and innovate together. We believe
           in collaboration, curiosity, and making technology accessible to all.
         </p>
       </div>
-      <div className="flex-1 w-full flex items-center justify-center mt-6 md:mt-0">
-        <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-          <Image
-            src="/Background-image.png"
-            alt="Our Motto"
-            className="rounded-xl shadow-lg w-full h-auto object-cover"
-            width={640}
-            height={480}
-            priority
-          />
-        </div>
+      <div className="flex-1 flex items-center justify-center w-full md:w-auto mt-4 sm:mt-6 md:mt-0">
+        <Image
+          src="/Background-image.png"
+          alt="Our Motto"
+          className="rounded-xl shadow-lg w-full max-w-[280px] sm:max-w-xs md:max-w-md h-auto object-cover"
+          width={500}
+          height={500}
+        />
       </div>
     </section>
   );

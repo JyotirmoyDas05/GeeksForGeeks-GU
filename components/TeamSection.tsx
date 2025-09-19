@@ -24,45 +24,122 @@ interface TeamMember {
   alt: string;
 }
 
-// Team members data - EDIT THIS SECTION TO UPDATE YOUR TEAM
+// Team members data - Updated with actual team members
 const teamMembers: TeamMember[] = [
   {
     id: 1,
-    name: "ALEX CHEN", // ← Change this to actual name
-    image: "/img_(1).jpg", // ← Change this to actual photo path
-    alt: "Alex Chen - Team Lead", // ← Change this to actual role
+    name: "JYOTIRMOY",
+    image: "/jyotirmoy.jpeg",
+    alt: "Jyotirmoy Das - Team Lead",
   },
   {
     id: 2,
-    name: "MAYA PATEL", // ← Change this to actual name
-    image: "/img_(2).jpg", // ← Change this to actual photo path
-    alt: "Maya Patel - Frontend Developer", // ← Change this to actual role
+    name: "DEBAKALPA",
+    image: "/Debakalpa.jpg",
+    alt: "Debakalpa Roy - Frontend Developer",
   },
   {
     id: 3,
-    name: "JORDAN SMITH", // ← Change this to actual name
-    image: "/img_(3).jpg", // ← Change this to actual photo path
-    alt: "Jordan Smith - Backend Developer", // ← Change this to actual role
+    name: "DIBYAJYOTI",
+    image: "/Dibyajyoti.jpg",
+    alt: "Dibyajyoti Paul - Backend Developer",
   },
   {
     id: 4,
-    name: "SOFIA RODRIGUEZ", // ← Change this to actual name
-    image: "/img_(4).jpg", // ← Change this to actual photo path
-    alt: "Sofia Rodriguez - UI/UX Designer", // ← Change this to actual role
+    name: "MUSKAN ",
+    image: "/Muskan.jpg",
+    alt: "Muskan Gupta - UI/UX Designer",
   },
   {
     id: 5,
-    name: "ETHAN TAYLOR", // ← Change this to actual name
-    image: "/img_(5).jpg", // ← Change this to actual photo path
-    alt: "Ethan Taylor - DevOps Engineer", // ← Change this to actual role
+    name: "SHRUTI ",
+    image: "/Shruti.jpg",
+    alt: "Shruti Singh - DevOps Engineer",
   },
-  // To add more members, copy the structure above and increment the id:
-  // {
-  //   id: 6,
-  //   name: "NEW MEMBER NAME",
-  //   image: "/new-member-photo.jpg",
-  //   alt: "New Member Name - Their Role",
-  // },
+  {
+    id: 6,
+    name: "PRACHI ",
+    image: "/prachi.jpg",
+    alt: "Prachi Sharma - Full Stack Developer",
+  },
+  {
+    id: 7,
+    name: "GAURAV ",
+    image: "/gaurav.jpg",
+    alt: "Gaurav Kumar - Mobile Developer",
+  },
+  {
+    id: 8,
+    name: "ANKITA ",
+    image: "/ankita.jpg",
+    alt: "Ankita Paul - Data Scientist",
+  },
+  {
+    id: 9,
+    name: "Bhairab",
+    image: "/bhairab.jpg",
+    alt: "Bhairab - Data Scientist",
+  },
+  {
+    id: 10,
+    name: "Bhargav",
+    image: "/bhargav.jpg",
+    alt: "Bhargav - Data Scientist",
+  },
+    {
+    id: 11,
+    name: "Bitopan",
+    image: "/bitopan.jpg",
+    alt: "Bitopan - Data Scientist",
+  },
+    {
+    id: 12,
+    name: "Dawar",
+    image: "/Dawar.jpeg",
+    alt: "Dawar - Data Scientist",
+  },
+    {
+    id: 13,
+    name: "Diya-Saha",
+    image: "/Diya-Saha.jpg",
+    alt: "Diya-Saha - Data Scientist",
+  },
+    {
+    id: 14,
+    name: "Diya",
+    image: "/Diya-(3rd-sem).jpg",
+    alt: "Diya - Data Scientist",
+  },
+    {
+    id: 15,
+    name: "ANKITA PAUL",
+    image: "/ankita.jpg",
+    alt: "Ankita Paul - Data Scientist",
+  },
+    {
+    id: 16,
+    name: "Garima",
+    image: "/garima.jpg",
+    alt: "Garima - Data Scientist",
+  },
+    {
+    id: 17,
+    name: "Jupitora",
+    image: "/jupitora.jpg",
+    alt: "Jupitora - Data Scientist",
+  },
+    {
+    id: 18,
+    name: "Mandeep",
+    image: "/mandeep.jpg",
+    alt: "Mandeep - Data Scientist",
+  },
+    {
+    id: 19,
+    name: "Nahid",
+    image: "/Nahid.jpg",
+    alt: "Nahid - Data Scientist",
+  },
 ];
 
 const TeamSection: React.FC = () => {
