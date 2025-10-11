@@ -82,7 +82,7 @@ const teamMembers: TeamMember[] = [
   {
     id: 23,
     name: "Neelim",
-    image: "/Neelim.jpg",
+    image: "/neelim.jpg",
     alt: "Graphics & Design Associate",
   },
   {
@@ -100,12 +100,12 @@ const teamMembers: TeamMember[] = [
   {
     id: 26,
     name: "Pritom",
-    image: "/Pritom.jpg",
+    image: "/pritom.jpg",
     alt: "Reels & Content Associate Lead",
   },
-  { id: 27, name: "Pragyan", image: "/Pragyan.jpg", alt: "DevOps Lead" },
-  { id: 28, name: "Prajnan", image: "/Prajnan.jpg", alt: "Social Media Lead" },
-  { id: 29, name: "Priyam", image: "/Priyam.jpg", alt: "PR Lead" },
+  { id: 27, name: "Pragyan", image: "/pragyan.jpg", alt: "DevOps Lead" },
+  { id: 28, name: "Prajnan", image: "/prajnan.jpg", alt: "Social Media Lead" },
+  { id: 29, name: "Priyam", image: "/priyam.jpg", alt: "PR Lead" },
   {
     id: 30,
     name: "Shruti",
@@ -119,29 +119,29 @@ const teamMembers: TeamMember[] = [
     alt: "PR Associate Lead",
   },
   { id: 32, name: "Sampurna", image: "/Sampurna.jpg", alt: "AI-ML Lead" },
-  { id: 33, name: "Sahid", image: "/Sahid.jpg", alt: "Developer Co-lead" },
+  { id: 33, name: "Sahid", image: "/sahid.jpg", alt: "Developer Co-lead" },
   {
     id: 34,
     name: "Sarangapani",
     image: "/Sarangapani.jpg",
     alt: "Event Associate",
   },
-  { id: 35, name: "Simanta", image: "/Simanta.jpg", alt: "Campus Lead" },
+  { id: 35, name: "Simanta", image: "/simanta.jpg", alt: "Campus Lead" },
   {
     id: 36,
     name: "Tanbir",
-    image: "/Tanbir.jpg",
+    image: "/tanbir.jpg",
     alt: "Reels & Content Associate Lead",
   },
   {
     id: 37,
     name: "Taniya",
-    image: "/Taniya.jpg",
+    image: "/taniya.jpg",
     alt: "Reels & Content Associate Lead",
   },
-  { id: 38, name: "Tanmoy", image: "/Tanmoy_.jpg", alt: "AI/ML Co-lead" },
-  { id: 39, name: "Uddipta", image: "/Uddipta.jpg", alt: "Game Dev Lead" },
-  { id: 40, name: "Vrishank", image: "/Vrishank.jpg", alt: "PR Co-lead" },
+  { id: 38, name: "Tanmoy", image: "/tanmoy_.jpg", alt: "AI/ML Co-lead" },
+  { id: 39, name: "Uddipta", image: "/uddipta.jpg", alt: "Game Dev Lead" },
+  { id: 40, name: "Vrishank", image: "/vrishank.jpg", alt: "PR Co-lead" },
 ];
 
 export default function TeamSection() {
