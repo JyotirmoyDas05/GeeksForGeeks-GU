@@ -72,7 +72,7 @@ const teamMembers: TeamMember[] = [
     alt: "Robotics & IoT Lead",
   },
   { id: 20, name: "Nahid", image: "/Nahid.jpg", alt: "Graphics & Design Lead" },
-  { id: 21, name: "Nitin", image: "/Nitin.jpg", alt: "Technical Lead" },
+  { id: 21, name: "Nitin", image: "/nitin.jpg", alt: "Technical Lead" },
   {
     id: 22,
     name: "Nishita",
