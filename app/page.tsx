@@ -20,6 +20,8 @@ export default function Home() {
             "flex flex-col items-center justify-center",
             // pad horizontally with responsive gutters
             "px-4 sm:px-6 md:px-8",
+            // stacking context for z-index fixes
+            "relative z-0",
           ].join(" ")}
         >
           {/* Hero container constrained for readability */}
@@ -33,7 +35,7 @@ export default function Home() {
               // use flex to center hero content in the viewport
               "flex flex-col items-center justify-center",
               // position relative for absolute positioning of content
-              "relative",
+              "relative z-10",
             ].join(" ")}
           >
             {/* Centered content container */}
@@ -98,7 +100,9 @@ export default function Home() {
           {/* Our Motto Section */}
           <MottoSection />
           {/* Meet our Team Section */}
-          <TeamSection />
+          <div className="relative z-0 w-full">
+            <TeamSection />
+          </div>
         </main>
       </ReactLenis>
     </>
@@ -108,8 +112,14 @@ export default function Home() {
 // Motto Section
 function MottoSection() {
   return (
-    <section className="w-full max-w-[100rem] flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 text-foreground relative">
-      <div className="flex-1 flex flex-col items-start justify-center text-left gap-3 sm:gap-4 md:gap-6 w-full">
+    <section
+      className="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 py-8 sm:py-12 md:py-16 lg:py-20 text-foreground relative"
+      style={{ paddingLeft: "1.5rem", paddingRight: "1.5rem" }}
+    >
+      <div
+        className="flex-1 flex flex-col items-start justify-center text-left gap-3 sm:gap-4 md:gap-6 w-full"
+        style={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
+      >
         <TextAnimation>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-2 leading-tight">
             Our <span className="text-[#0f9d58]">Motto</span>
@@ -120,7 +130,10 @@ function MottoSection() {
           in collaboration, curiosity, and making technology accessible to all.
         </p>
       </div>
-      <div className="flex-1 flex items-center justify-center w-full md:w-auto mt-4 sm:mt-6 md:mt-0">
+      <div
+        className="flex-1 flex items-center justify-center w-full md:w-auto mt-4 sm:mt-6 md:mt-0"
+        style={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
+      >
         <Image
           src="/Background-image.png"
           alt="Our Motto"

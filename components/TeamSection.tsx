@@ -1,667 +1,644 @@
-"use client";
+﻿"use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import Marquee from "@/components/ui/marquee";
+import {
+  MaglevTooltip,
+  calculateMaglevPosition,
+} from "@/components/ui/animated-tooltip";
 
-// Utility function to split text into individual letter spans
-const splitTextIntoLetters = (text: string): string => {
-  return text
-    .split("")
-    .map((char, index) =>
-      char === " "
-        ? `<span class="letter space" data-letter="${index}">&nbsp;</span>`
-        : `<span class="letter" data-letter="${index}">${char}</span>`
-    )
-    .join("");
-};
+type TeamMember = { id: number; name: string; image: string; alt: string };
 
-// Team member interface
-interface TeamMember {
-  id: number;
-  name: string;
-  image: string;
-  alt: string;
-}
-
-// Team members data - Updated with actual team members
 const teamMembers: TeamMember[] = [
-  {
-    id: 1,
-    name: "JYOTIRMOY",
-    image: "/jyotirmoy.jpeg",
-    alt: "Jyotirmoy Das - Team Lead",
-  },
-  {
-    id: 2,
-    name: "DEBAKALPA",
-    image: "/Debakalpa.jpg",
-    alt: "Debakalpa Roy - Frontend Developer",
-  },
-  {
-    id: 3,
-    name: "DIBYAJYOTI",
-    image: "/Dibyajyoti.jpg",
-    alt: "Dibyajyoti Paul - Backend Developer",
-  },
+  { id: 1, name: "Ankita", image: "/ankita.jpg", alt: "DevOps Lead" },
+  { id: 2, name: "Bhairab", image: "/bhairab.jpg", alt: "Game Dev Co-lead" },
+  { id: 3, name: "Bhargab", image: "/bhargav.jpg", alt: "AI/ML Lead" },
   {
     id: 4,
-    name: "MUSKAN ",
-    image: "/Muskan.jpg",
-    alt: "Muskan Gupta - UI/UX Designer",
-  },
-  {
-    id: 5,
-    name: "SHRUTI ",
-    image: "/Shruti.jpg",
-    alt: "Shruti Singh - DevOps Engineer",
-  },
-  {
-    id: 6,
-    name: "PRACHI ",
-    image: "/prachi.jpg",
-    alt: "Prachi Sharma - Full Stack Developer",
-  },
-  {
-    id: 7,
-    name: "GAURAV ",
-    image: "/gaurav.jpg",
-    alt: "Gaurav Kumar - Mobile Developer",
-  },
-  {
-    id: 8,
-    name: "ANKITA ",
-    image: "/ankita.jpg",
-    alt: "Ankita Paul - Data Scientist",
-  },
-  {
-    id: 9,
-    name: "Bhairab",
-    image: "/bhairab.jpg",
-    alt: "Bhairab - Data Scientist",
-  },
-  {
-    id: 10,
-    name: "Bhargav",
-    image: "/bhargav.jpg",
-    alt: "Bhargav - Data Scientist",
-  },
-    {
-    id: 11,
     name: "Bitopan",
     image: "/bitopan.jpg",
-    alt: "Bitopan - Data Scientist",
+    alt: "Robotics & IoT Co-lead",
   },
-    {
-    id: 12,
-    name: "Dawar",
-    image: "/Dawar.jpeg",
-    alt: "Dawar - Data Scientist",
+  { id: 5, name: "Debakalpa", image: "/Debakalpa.jpg", alt: "Event Co-lead" },
+  {
+    id: 6,
+    name: "Dibyajyoti",
+    image: "/Dibyajyoti.jpg",
+    alt: "Social Media Co-lead",
   },
-    {
-    id: 13,
-    name: "Diya-Saha",
-    image: "/Diya-Saha.jpg",
-    alt: "Diya-Saha - Data Scientist",
-  },
-    {
-    id: 14,
+  { id: 7, name: "Diya", image: "/Diya.jpg", alt: "DSA Lead" },
+  {
+    id: 8,
     name: "Diya",
-    image: "/Diya-(3rd-sem).jpg",
-    alt: "Diya - Data Scientist",
+    image: "/Diya-3rd-sem.jpg",
+    alt: "Robotics & IoT Co-lead",
   },
-    {
-    id: 15,
-    name: "ANKITA PAUL",
-    image: "/ankita.jpg",
-    alt: "Ankita Paul - Data Scientist",
-  },
-    {
-    id: 16,
+  { id: 9, name: "Dawar", image: "/Dawar.jpeg", alt: "PR Co-lead" },
+  { id: 10, name: "Denim", image: "/denim_d.jpg", alt: "Robotics & IoT Lead" },
+  { id: 11, name: "Dhritee", image: "/dhritee_.jpg", alt: "Event Lead" },
+  { id: 12, name: "Gaurab", image: "/gaurav.jpg", alt: "Developer Lead" },
+  {
+    id: 13,
     name: "Garima",
     image: "/garima.jpg",
-    alt: "Garima - Data Scientist",
+    alt: "Graphics & Design Co-lead",
   },
-    {
-    id: 17,
+  {
+    id: 14,
+    name: "Jyotirmoy",
+    image: "/jyotirmoy.jpeg",
+    alt: "DevOps Co-lead",
+  },
+  {
+    id: 15,
     name: "Jupitora",
     image: "/jupitora.jpg",
-    alt: "Jupitora - Data Scientist",
+    alt: "Reels & Content Associate Lead",
   },
-    {
-    id: 18,
-    name: "Mandeep",
-    image: "/mandeep.jpg",
-    alt: "Mandeep - Data Scientist",
+  {
+    id: 16,
+    name: "Jyotishman",
+    image: "/jyotishman.jpg",
+    alt: "Event Co-lead",
   },
-    {
+  { id: 17, name: "Mandeep", image: "/mandeep.jpg", alt: "PR Associate" },
+  { id: 18, name: "Muskan", image: "/Muskan.jpg", alt: "Developer Co-lead" },
+  {
     id: 19,
-    name: "Nahid",
-    image: "/Nahid.jpg",
-    alt: "Nahid - Data Scientist",
+    name: "Mriganga",
+    image: "/Mriganga_.jpg",
+    alt: "Robotics & IoT Lead",
   },
+  { id: 20, name: "Nahid", image: "/Nahid.jpg", alt: "Graphics & Design Lead" },
+  { id: 21, name: "Nitin", image: "/Nitin.jpg", alt: "Technical Lead" },
+  {
+    id: 22,
+    name: "Nishita",
+    image: "/Nishita.jpg",
+    alt: "Reels & Content Associate Lead",
+  },
+  {
+    id: 23,
+    name: "Neelim",
+    image: "/Neelim.jpg",
+    alt: "Graphics & Design Associate",
+  },
+  {
+    id: 24,
+    name: "Parisa",
+    image: "/parisa.jpg",
+    alt: "Graphics & Design Associate",
+  },
+  {
+    id: 25,
+    name: "Prachi",
+    image: "/prachi.jpg",
+    alt: "Reels & Content Associate Lead",
+  },
+  {
+    id: 26,
+    name: "Pritom",
+    image: "/Pritom.jpg",
+    alt: "Reels & Content Associate Lead",
+  },
+  { id: 27, name: "Pragyan", image: "/Pragyan.jpg", alt: "DevOps Lead" },
+  { id: 28, name: "Prajnan", image: "/Prajnan.jpg", alt: "Social Media Lead" },
+  { id: 29, name: "Priyam", image: "/Priyam.jpg", alt: "PR Lead" },
+  {
+    id: 30,
+    name: "Shruti",
+    image: "/Shruti.jpg",
+    alt: "Graphics & Design Co-lead",
+  },
+  {
+    id: 31,
+    name: "Sagarika",
+    image: "/Sagarika.jpeg",
+    alt: "PR Associate Lead",
+  },
+  { id: 32, name: "Sampurna", image: "/Sampurna.jpg", alt: "AI-ML Lead" },
+  { id: 33, name: "Sahid", image: "/Sahid.jpg", alt: "Developer Co-lead" },
+  {
+    id: 34,
+    name: "Sarangapani",
+    image: "/Sarangapani.jpg",
+    alt: "Event Associate",
+  },
+  { id: 35, name: "Simanta", image: "/Simanta.jpg", alt: "Campus Lead" },
+  {
+    id: 36,
+    name: "Tanbir",
+    image: "/Tanbir.jpg",
+    alt: "Reels & Content Associate Lead",
+  },
+  {
+    id: 37,
+    name: "Taniya",
+    image: "/Taniya.jpg",
+    alt: "Reels & Content Associate Lead",
+  },
+  { id: 38, name: "Tanmoy", image: "/Tanmoy_.jpg", alt: "AI/ML Co-lead" },
+  { id: 39, name: "Uddipta", image: "/Uddipta.jpg", alt: "Game Dev Lead" },
+  { id: 40, name: "Vrishank", image: "/Vrishank.jpg", alt: "PR Co-lead" },
 ];
 
-const TeamSection: React.FC = () => {
-  const teamRef = useRef<HTMLDivElement>(null);
-  const profileImagesRef = useRef<HTMLDivElement>(null);
-  const profileNamesRef = useRef<HTMLDivElement>(null);
-  const defaultNameRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+export default function TeamSection() {
+  const [paused, setPaused] = useState(false);
+  const [activeMemberId, setActiveMemberId] = useState<number | null>(null);
+  const marqueeContainerRef = useRef<HTMLDivElement | null>(null);
+  const defaultNameRef = useRef<HTMLDivElement | null>(null);
   const nameRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const cursorArrowRef = useRef<HTMLDivElement>(null);
+  const leaveTimeoutRef = useRef<number | null>(null);
+  const cursorRef = useRef<HTMLDivElement | null>(null);
+  const xTo = useRef<any>(null);
+  const yTo = useRef<any>(null);
+  const hoveredAvatarRef = useRef<HTMLDivElement | null>(null);
+  const hoveredMemberIdRef = useRef<number | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{
+    left: number;
+    top: number;
+    rotation?: number;
+  } | null>(null);
+  const tooltipPosRef = useRef<typeof tooltipPos>(null);
+  const lastCursorRef = useRef<{ x: number; y: number } | null>(null);
 
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [currentHover, setCurrentHover] = useState<number | null>(null);
-  const [currentMobileActive, setCurrentMobileActive] = useState<number | null>(
-    null
-  );
-  const [showCursorArrow, setShowCursorArrow] = useState(false);
-
-  // GSAP quickTo functions for smooth cursor following
-  const xTo = useRef<((value: number) => void) | null>(null);
-  const yTo = useRef<((value: number) => void) | null>(null);
-
-  // Touch/long press handling
-  const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const longPressThreshold = 500; // 500ms for long press
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth > 900);
-    };
-
-    checkIsDesktop();
-    window.addEventListener("resize", checkIsDesktop);
-
-    // Initialize GSAP animations and cursor arrow
-    const ctx = gsap.context(() => {
-      // Initialize cursor arrow position and quickTo functions
-      if (cursorArrowRef.current) {
-        gsap.set(cursorArrowRef.current, {
-          x: 0,
-          y: 0,
-          scale: 0,
-          opacity: 0,
-          transformOrigin: "center center",
-        });
-
-        // Create quickTo functions for smooth cursor following
-        xTo.current = gsap.quickTo(cursorArrowRef.current, "x", {
-          duration: 0.6,
-          ease: "power3.out",
-        });
-        yTo.current = gsap.quickTo(cursorArrowRef.current, "y", {
-          duration: 0.6,
-          ease: "power3.out",
-        });
-      }
-
-      // Split text into letters for all name elements
-      if (defaultNameRef.current) {
-        const defaultH1 = defaultNameRef.current.querySelector("h1");
-        if (defaultH1) {
-          defaultH1.innerHTML = splitTextIntoLetters("OUR SQUAD");
-        }
-      }
-
-      nameRefs.current.forEach((nameRef) => {
-        if (nameRef) {
-          const h1 = nameRef.querySelector("h1");
-          if (h1) {
-            const memberName = h1.textContent || "";
-            h1.innerHTML = splitTextIntoLetters(memberName);
-          }
-        }
-      });
-
-      // Set initial states
-      gsap.set(".profile-names .name:not(.default) .letter", {
-        y: "100%",
+    gsap.set(".avatar-card", { scale: 1, x: 0, zIndex: 1 });
+    if (cursorRef.current) {
+      gsap.set(cursorRef.current, {
+        x: -9999,
+        y: -9999,
+        scale: 0,
         opacity: 0,
-      });
-
-      gsap.set(".profile-names .name.default .letter", {
-        y: "100%",
-        opacity: 0,
-      });
-
-      gsap.set(".profile-images .image", {
-        scale: 1,
-        x: 0,
         transformOrigin: "center center",
       });
-
-      // Animate default text in on load
-      gsap.to(".profile-names .name.default .letter", {
-        y: "0%",
-        opacity: 1,
-        duration: 0.8,
-        stagger: {
-          amount: 0.4,
-          from: "center",
-        },
-        ease: "back.out(1.7)",
-        delay: 0.5,
+      xTo.current = gsap.quickTo(cursorRef.current, "x", {
+        duration: 0.35,
+        ease: "power3.out",
       });
-    }, teamRef);
-
-    return () => {
-      window.removeEventListener("resize", checkIsDesktop);
-      ctx.revert();
-    };
+      yTo.current = gsap.quickTo(cursorRef.current, "y", {
+        duration: 0.35,
+        ease: "power3.out",
+      });
+    }
   }, []);
 
-  // Mouse move handler for cursor arrow following
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDesktop || !showCursorArrow || !xTo.current || !yTo.current) return;
+  // Helper to split text into letter spans (keeps original animation markup)
+  const splitTextIntoLetters = (text: string) =>
+    text
+      .split("")
+      .map((char, index) =>
+        char === " "
+          ? `<span class="letter space" data-letter="${index}">&nbsp;</span>`
+          : `<span class="letter" data-letter="${index}">${char}</span>`
+      )
+      .join("");
 
-    const rect = profileImagesRef.current?.getBoundingClientRect();
-    if (!rect) return;
+  useEffect(() => {
+    tooltipPosRef.current = tooltipPos;
+  }, [tooltipPos]);
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  // Restore text animation: split letters and run initial/default animation
+  useEffect(() => {
+    // Split default title
+    const defaultH1 = defaultNameRef.current?.querySelector("h1");
+    if (defaultH1) {
+      defaultH1.innerHTML = splitTextIntoLetters("OUR SQUAD");
+    }
 
-    xTo.current(x);
-    yTo.current(y);
-  };
-
-  // Calculate slide positions for images
-  const calculateSlidePositions = (hoveredIndex: number) => {
-    const positions: number[] = [];
-    const slideDistance = isDesktop ? 60 : 30; // Adjust slide distance
-
-    imageRefs.current.forEach((_, index) => {
-      if (index < hoveredIndex) {
-        // Images to the left slide left
-        positions[index] = -slideDistance;
-      } else if (index > hoveredIndex) {
-        // Images to the right slide right
-        positions[index] = slideDistance;
-      } else {
-        // Hovered image stays in place
-        positions[index] = 0;
+    // Split each member name
+    nameRefs.current.forEach((nr, i) => {
+      if (nr) {
+        const h1 = nr.querySelector("h1");
+        if (h1) h1.innerHTML = splitTextIntoLetters(teamMembers[i].name);
       }
     });
 
-    return positions;
-  };
+    // initial letter state
+    gsap.set(".profile-names .name .letter", {
+      y: "100%",
+      opacity: 0,
+      force3D: true,
+    });
 
-  // Handle image hover (desktop)
-  const handleImageHover = (memberId: number, index: number) => {
-    if (!isDesktop || currentHover === memberId) return;
+    // animate default in
+    gsap.to(".profile-names .name.default .letter", {
+      y: "0%",
+      opacity: 1,
+      duration: 0.8,
+      stagger: { amount: 0.4, from: "center" },
+      ease: "back.out(1.7)",
+      delay: 0.5,
+      force3D: true,
+    });
+  }, []);
 
-    setCurrentHover(memberId);
-    setShowCursorArrow(true);
-
-    // Show cursor arrow with animation
-    if (cursorArrowRef.current) {
-      gsap.to(cursorArrowRef.current, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.3,
-        ease: "back.out(1.7)",
-      });
-    }
-
-    // Kill any existing tweens to prevent conflicts
-    gsap.killTweensOf(".profile-images .image");
-    gsap.killTweensOf(".profile-names .name .letter");
-
-    const ctx = gsap.context(() => {
-      const slidePositions = calculateSlidePositions(index);
-
-      // Animate all images with sliding and scaling - smoother transitions
-      imageRefs.current.forEach((img, i) => {
-        if (img) {
-          if (i === index) {
-            // Scale up hovered image with smoother easing
-            gsap.to(img, {
-              scale: 2,
-              x: slidePositions[i],
-              duration: 0.6,
-              ease: "power2.out",
-              zIndex: 20,
-            });
-          } else {
-            // Scale down and slide other images with consistent timing
-            gsap.to(img, {
-              scale: 0.75,
-              x: slidePositions[i],
-              duration: 0.6,
-              ease: "power2.out",
-              zIndex: 1,
-            });
-          }
-        }
-      });
-
-      // Text animations (same as before)
-      gsap.to(".profile-names .name.default .letter", {
-        y: "-100%",
-        opacity: 0,
-        duration: 0.25,
-        stagger: {
-          amount: 0.1,
-          from: "center",
-        },
-        ease: "power2.in",
-      });
-
-      nameRefs.current.forEach((nameRef, i) => {
-        if (nameRef && i !== index) {
-          const letters = nameRef.querySelectorAll(".letter");
+  // Animate on activeMemberId change
+  useEffect(() => {
+    if (activeMemberId === null) {
+      // hide all member letters
+      nameRefs.current.forEach((nr) => {
+        if (nr) {
+          const letters = nr.querySelectorAll(".letter");
           gsap.to(letters, {
             y: "-100%",
             opacity: 0,
-            duration: 0.15,
-            stagger: {
-              amount: 0.05,
-              from: "center",
-            },
+            duration: 0.2,
+            stagger: { amount: 0.05, from: "center" },
             ease: "power2.in",
+            force3D: true,
           });
         }
       });
 
-      if (nameRefs.current[index]) {
-        const letters = nameRefs.current[index]!.querySelectorAll(".letter");
-        gsap.fromTo(
-          letters,
-          {
-            y: "100%",
-            opacity: 0,
-          },
-          {
-            y: "0%",
-            opacity: 1,
-            duration: 0.5,
-            stagger: {
-              amount: 0.25,
-              from: "center",
-            },
-            ease: "back.out(1.7)",
-            delay: 0.05,
-          }
-        );
+      // show default
+      gsap.fromTo(
+        ".profile-names .name.default .letter",
+        { y: "100%", opacity: 0 },
+        {
+          y: "0%",
+          opacity: 1,
+          duration: 0.5,
+          stagger: { amount: 0.2, from: "center" },
+          ease: "back.out(1.7)",
+          delay: 0.15,
+          force3D: true,
+        }
+      );
+      return;
+    }
+
+    const idx = teamMembers.findIndex((m) => m.id === activeMemberId);
+    if (idx === -1) return;
+
+    // hide default
+    gsap.to(".profile-names .name.default .letter", {
+      y: "-100%",
+      opacity: 0,
+      duration: 0.25,
+      stagger: { amount: 0.1, from: "center" },
+      ease: "power2.in",
+      force3D: true,
+    });
+
+    // hide other names
+    nameRefs.current.forEach((nr, i) => {
+      if (nr && i !== idx) {
+        const letters = nr.querySelectorAll(".letter");
+        gsap.to(letters, {
+          y: "-100%",
+          opacity: 0,
+          duration: 0.15,
+          stagger: { amount: 0.05, from: "center" },
+          ease: "power2.in",
+          force3D: true,
+        });
       }
-    }, teamRef);
+    });
+
+    // animate target name in
+    const target = nameRefs.current[idx];
+    if (target) {
+      const letters = target.querySelectorAll(".letter");
+      gsap.fromTo(
+        letters,
+        { y: "100%", opacity: 0 },
+        {
+          y: "0%",
+          opacity: 1,
+          duration: 0.5,
+          stagger: { amount: 0.25, from: "center" },
+          ease: "back.out(1.7)",
+          delay: 0.05,
+          force3D: true,
+        }
+      );
+    }
+  }, [activeMemberId]);
+
+  const cancelTooltipTracking = () => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
   };
 
-  // Handle image mouse leave - improved to prevent jitter
-  const handleImageLeave = () => {
-    if (!isDesktop) return;
+  const resolveHoveredAvatarElement = () => {
+    if (typeof document === "undefined") {
+      return hoveredAvatarRef.current;
+    }
 
-    // Don't reset immediately, let handleContainerLeave handle the full reset
-    // This prevents jitter when moving between images quickly
+    if (
+      hoveredAvatarRef.current &&
+      !document.body.contains(hoveredAvatarRef.current)
+    ) {
+      hoveredAvatarRef.current = null;
+    }
 
-    // Only hide cursor arrow if we're not immediately moving to another image
-    setTimeout(() => {
-      if (!currentHover) {
-        setShowCursorArrow(false);
-        if (cursorArrowRef.current) {
-          gsap.to(cursorArrowRef.current, {
-            scale: 0,
-            opacity: 0,
-            duration: 0.2,
-            ease: "power2.in",
+    const memberId = hoveredMemberIdRef.current;
+    if (memberId === null) return hoveredAvatarRef.current;
+
+    const selector = `.avatar-card[data-member-id='${memberId}'][data-hovered='true']`;
+    const candidate = document.querySelector<HTMLDivElement>(selector);
+
+    if (candidate) {
+      hoveredAvatarRef.current = candidate;
+      return candidate;
+    }
+
+    const candidates = document.querySelectorAll<HTMLDivElement>(
+      `.avatar-card[data-member-id='${memberId}']`
+    );
+
+    if (!candidates.length) {
+      hoveredAvatarRef.current = null;
+      return null;
+    }
+
+    const pointer = lastCursorRef.current;
+    if (pointer) {
+      let closest: HTMLDivElement | null = null;
+      let minDistance = Number.POSITIVE_INFINITY;
+
+      candidates.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = pointer.x - cx;
+        const dy = pointer.y - cy;
+        const distance = dx * dx + dy * dy;
+        if (distance < minDistance) {
+          minDistance = distance;
+          closest = el;
+        }
+      });
+
+      if (closest) {
+        hoveredAvatarRef.current = closest;
+        return closest;
+      }
+    }
+
+    hoveredAvatarRef.current = candidates[0] ?? null;
+    return hoveredAvatarRef.current;
+  };
+
+  const updateTooltipPosition = (pointer?: { x?: number; y?: number }) => {
+    const avatarEl = resolveHoveredAvatarElement();
+    if (!avatarEl) return;
+
+    const rect = avatarEl.getBoundingClientRect();
+    const pointerX =
+      pointer?.x ?? lastCursorRef.current?.x ?? rect.left + rect.width / 2;
+    const pointerY = pointer?.y ?? lastCursorRef.current?.y ?? rect.top;
+
+    lastCursorRef.current = { x: pointerX, y: pointerY };
+
+    const nextPosition = calculateMaglevPosition(
+      pointerX,
+      pointerY,
+      rect,
+      tooltipPosRef.current,
+      avatarEl
+    );
+
+    // Only update state if position changed significantly (reduce unnecessary re-renders)
+    const threshold = 0.5;
+    if (
+      !tooltipPosRef.current ||
+      Math.abs(nextPosition.left - tooltipPosRef.current.left) > threshold ||
+      Math.abs(nextPosition.top - tooltipPosRef.current.top) > threshold ||
+      Math.abs(
+        (nextPosition.rotation ?? 0) - (tooltipPosRef.current.rotation ?? 0)
+      ) > 0.5
+    ) {
+      tooltipPosRef.current = nextPosition;
+      setTooltipPos(nextPosition);
+    }
+  };
+
+  const startTooltipTracking = () => {
+    if (!hoveredMemberIdRef.current) return;
+    cancelTooltipTracking();
+    updateTooltipPosition();
+
+    let frameCount = 0;
+    const step = () => {
+      if (!hoveredMemberIdRef.current) {
+        cancelTooltipTracking();
+        return;
+      }
+      // Update every other frame to reduce CPU load (still smooth at 30fps)
+      frameCount++;
+      if (frameCount % 2 === 0) {
+        updateTooltipPosition();
+      }
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+  };
+
+  const stopTooltipTracking = () => {
+    cancelTooltipTracking();
+    tooltipPosRef.current = null;
+  };
+
+  const handleAvatarEnter = (
+    repeatIndex: number,
+    index: number,
+    member: TeamMember
+  ) => {
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
+      leaveTimeoutRef.current = null;
+    }
+
+    setPaused(true);
+
+    const group = Array.from(
+      document.querySelectorAll<HTMLDivElement>(
+        `.avatar-card[data-repeat-index='${repeatIndex}']`
+      )
+    );
+
+    group.forEach((card, i) => {
+      if (i === index) {
+        if (hoveredAvatarRef.current && hoveredAvatarRef.current !== card) {
+          hoveredAvatarRef.current.removeAttribute("data-hovered");
+        }
+
+        hoveredAvatarRef.current = card;
+        hoveredMemberIdRef.current = member.id;
+        card.setAttribute("data-hovered", "true");
+
+        setActiveMemberId(member.id);
+
+        const rect = card.getBoundingClientRect();
+        const initialPointer = {
+          x: rect.left + rect.width / 2,
+          y: rect.top,
+        };
+
+        lastCursorRef.current = initialPointer;
+        updateTooltipPosition(initialPointer);
+        startTooltipTracking();
+
+        gsap.to(card, {
+          scale: 2,
+          x: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          zIndex: 20,
+          onUpdate: () => {
+            updateTooltipPosition();
+          },
+        });
+
+        if (cursorRef.current) {
+          gsap.to(cursorRef.current, {
+            scale: 1,
+            opacity: 1,
+            duration: 0.22,
+            ease: "back.out(1.7)",
           });
         }
+      } else {
+        const slide = i < index ? -60 : 60;
+        gsap.to(card, {
+          scale: 0.75,
+          x: slide,
+          duration: 0.6,
+          ease: "power2.out",
+          zIndex: 1,
+        });
       }
-    }, 50); // Small delay to check if we're hovering another image
+    });
   };
 
-  // Handle container leave (desktop)
-  const handleContainerLeave = () => {
-    if (!isDesktop) return;
+  const handleAvatarLeave = (
+    repeatIndex: number,
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
+    const related = e.relatedTarget as HTMLElement | null;
+    if (
+      related &&
+      "classList" in related &&
+      related.classList.contains("avatar-card") &&
+      related.getAttribute("data-repeat-index") === String(repeatIndex)
+    ) {
+      return; // still inside same group
+    }
 
-    setCurrentHover(null);
-    setShowCursorArrow(false);
+    // debounce the reset slightly to avoid jitter when moving quickly between duplicates
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
+    }
+    leaveTimeoutRef.current = window.setTimeout(() => {
+      leaveTimeoutRef.current = null;
+      setPaused(false);
+      setActiveMemberId(null);
+      stopTooltipTracking();
+      if (hoveredAvatarRef.current) {
+        hoveredAvatarRef.current.removeAttribute("data-hovered");
+      }
+      hoveredAvatarRef.current = null;
+      hoveredMemberIdRef.current = null;
+      lastCursorRef.current = null;
+      setTooltipPos(null);
+      const group = Array.from(
+        document.querySelectorAll<HTMLDivElement>(
+          `.avatar-card[data-repeat-index='${repeatIndex}']`
+        )
+      );
+      group.forEach((card) =>
+        gsap.to(card, {
+          scale: 1,
+          x: 0,
+          duration: 0.35,
+          ease: "power2.inOut",
+          zIndex: 1,
+        })
+      );
+      // hide cursor slowly when leaving marquee
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          scale: 0,
+          opacity: 0,
+          duration: 0.45,
+          ease: "power2.in",
+        });
+      }
+    }, 120);
+  };
 
-    // Hide cursor arrow
-    if (cursorArrowRef.current) {
-      gsap.to(cursorArrowRef.current, {
+  const handleMarqueeMouseMove = (e: React.MouseEvent) => {
+    if (!xTo.current || !yTo.current) return;
+
+    const offset = 18; // bottom-right offset in px
+    const x = e.clientX + offset;
+    const y = e.clientY + offset;
+
+    xTo.current(x);
+    yTo.current(y);
+
+    // if pointer is over or near an avatar, ensure cursor indicator is visible
+    if (isCursorNearAvatar(e.clientX, e.clientY)) {
+      if (cursorRef.current)
+        gsap.to(cursorRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.12,
+          ease: "power2.out",
+        });
+    }
+
+    if (hoveredMemberIdRef.current !== null && activeMemberId !== null) {
+      const pointer = { x: e.clientX, y: e.clientY };
+      lastCursorRef.current = pointer;
+      updateTooltipPosition(pointer);
+    }
+  };
+
+  const handleMarqueeLeave = () => {
+    // shrink/hide cursor when pointer leaves the marquee area
+    if (cursorRef.current) {
+      gsap.to(cursorRef.current, {
         scale: 0,
         opacity: 0,
-        duration: 0.3,
+        duration: 0.45,
         ease: "power2.in",
       });
     }
-
-    // Kill any existing tweens to prevent conflicts
-    gsap.killTweensOf(".profile-images .image");
-    gsap.killTweensOf(".profile-names .name .letter");
-
-    const ctx = gsap.context(() => {
-      // Reset all image scales and positions with smoother timing
-      gsap.to(".profile-images .image", {
-        scale: 1,
-        x: 0,
-        duration: 0.5,
-        ease: "power2.out",
-        zIndex: 1,
-      });
-
-      // Animate out all member names quickly
-      nameRefs.current.forEach((nameRef) => {
-        if (nameRef) {
-          const letters = nameRef.querySelectorAll(".letter");
-          gsap.to(letters, {
-            y: "-100%",
-            opacity: 0,
-            duration: 0.2,
-            stagger: {
-              amount: 0.05,
-              from: "center",
-            },
-            ease: "power2.in",
-          });
-        }
-      });
-
-      // Animate default text back in
-      gsap.fromTo(
-        ".profile-names .name.default .letter",
-        {
-          y: "100%",
-          opacity: 0,
-        },
-        {
-          y: "0%",
-          opacity: 1,
-          duration: 0.5,
-          stagger: {
-            amount: 0.2,
-            from: "center",
-          },
-          ease: "back.out(1.7)",
-          delay: 0.15,
-        }
-      );
-    }, teamRef);
   };
 
-  // Mobile/tablet touch handlers
-  const handleTouchStart = (memberId: number, index: number) => {
-    if (isDesktop) return;
-
-    // Clear any existing timeout
-    if (touchTimeoutRef.current) {
-      clearTimeout(touchTimeoutRef.current);
+  // Helper: check a few nearby points to see if any element is an avatar-card
+  const isCursorNearAvatar = (clientX: number, clientY: number) => {
+    if (typeof document === "undefined") return false;
+    const offsets = [
+      [0, 0],
+      [-18, 0],
+      [18, 0],
+      [0, -18],
+      [0, 18],
+    ];
+    for (const [dx, dy] of offsets) {
+      const el = document.elementFromPoint(
+        clientX + dx,
+        clientY + dy
+      ) as HTMLElement | null;
+      if (!el) continue;
+      if (el.classList.contains("avatar-card")) return true;
+      if (el.closest && el.closest(".avatar-card")) return true;
     }
-
-    // Add touch feedback
-    if (imageRefs.current[index]) {
-      gsap.to(imageRefs.current[index], {
-        scale: 0.95,
-        duration: 0.1,
-        ease: "power2.out",
-      });
-    }
-
-    // Set timeout for long press
-    touchTimeoutRef.current = setTimeout(() => {
-      handleMobileActivation(memberId, index);
-    }, longPressThreshold);
-  };
-
-  const handleTouchEnd = (index: number) => {
-    if (isDesktop) return;
-
-    // Clear timeout
-    if (touchTimeoutRef.current) {
-      clearTimeout(touchTimeoutRef.current);
-      touchTimeoutRef.current = null;
-    }
-
-    // Remove touch feedback
-    if (imageRefs.current[index] && currentMobileActive !== index) {
-      gsap.to(imageRefs.current[index], {
-        scale: 1,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    }
-  };
-
-  const handleMobileClick = (memberId: number, index: number) => {
-    if (isDesktop) return;
-
-    // Handle immediate tap activation
-    if (currentMobileActive === memberId) {
-      // Deactivate if already active
-      setCurrentMobileActive(null);
-      handleMobileDeactivation();
-    } else {
-      // Activate new profile
-      handleMobileActivation(memberId, index);
-    }
-  };
-
-  const handleMobileActivation = (memberId: number, index: number) => {
-    setCurrentMobileActive(memberId);
-
-    gsap.killTweensOf(".profile-images .image");
-    gsap.killTweensOf(".profile-names .name .letter");
-
-    const ctx = gsap.context(() => {
-      const slidePositions = calculateSlidePositions(index);
-
-      // Animate images with mobile-optimized scaling - smoother timing
-      imageRefs.current.forEach((img, i) => {
-        if (img) {
-          if (i === index) {
-            gsap.to(img, {
-              scale: 1.5,
-              x: slidePositions[i],
-              duration: 0.5,
-              ease: "power2.out",
-              zIndex: 20,
-            });
-          } else {
-            gsap.to(img, {
-              scale: 0.8,
-              x: slidePositions[i],
-              duration: 0.5,
-              ease: "power2.out",
-              zIndex: 1,
-            });
-          }
-        }
-      });
-
-      // Text animations
-      gsap.to(".profile-names .name.default .letter", {
-        y: "-100%",
-        opacity: 0,
-        duration: 0.25,
-        stagger: {
-          amount: 0.1,
-          from: "center",
-        },
-        ease: "power2.in",
-      });
-
-      if (nameRefs.current[index]) {
-        const letters = nameRefs.current[index]!.querySelectorAll(".letter");
-        gsap.fromTo(
-          letters,
-          {
-            y: "100%",
-            opacity: 0,
-          },
-          {
-            y: "0%",
-            opacity: 1,
-            duration: 0.5,
-            stagger: {
-              amount: 0.25,
-              from: "center",
-            },
-            ease: "back.out(1.7)",
-            delay: 0.05,
-          }
-        );
-      }
-    }, teamRef);
-  };
-
-  const handleMobileDeactivation = () => {
-    gsap.killTweensOf(".profile-images .image");
-    gsap.killTweensOf(".profile-names .name .letter");
-
-    const ctx = gsap.context(() => {
-      // Reset all images with smoother timing
-      gsap.to(".profile-images .image", {
-        scale: 1,
-        x: 0,
-        duration: 0.4,
-        ease: "power2.out",
-        zIndex: 1,
-      });
-
-      // Hide member names
-      nameRefs.current.forEach((nameRef) => {
-        if (nameRef) {
-          const letters = nameRef.querySelectorAll(".letter");
-          gsap.to(letters, {
-            y: "-100%",
-            opacity: 0,
-            duration: 0.2,
-            stagger: {
-              amount: 0.05,
-              from: "center",
-            },
-            ease: "power2.in",
-          });
-        }
-      });
-
-      // Show default text
-      gsap.fromTo(
-        ".profile-names .name.default .letter",
-        {
-          y: "100%",
-          opacity: 0,
-        },
-        {
-          y: "0%",
-          opacity: 1,
-          duration: 0.5,
-          stagger: {
-            amount: 0.2,
-            from: "center",
-          },
-          ease: "back.out(1.7)",
-          delay: 0.15,
-        }
-      );
-    }, teamRef);
+    return false;
   };
 
   return (
-    <>
-      {/* Google Fonts */}
+    <div>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link
@@ -669,44 +646,14 @@ const TeamSection: React.FC = () => {
         rel="stylesheet"
       />
 
-      <div ref={teamRef} className="team">
-        {/* Profile Images Container */}
+      <div className="team">
         <div
-          ref={profileImagesRef}
-          className="profile-images"
-          onMouseLeave={handleContainerLeave}
-          onMouseMove={handleMouseMove}
+          ref={marqueeContainerRef}
+          className={`marquee-container${paused ? " paused" : ""}`}
+          onMouseMove={handleMarqueeMouseMove}
+          onMouseLeave={handleMarqueeLeave}
         >
-          {teamMembers.map((member, index) => (
-            <div
-              key={member.id}
-              ref={(el) => {
-                imageRefs.current[index] = el;
-              }}
-              className="image"
-              onMouseEnter={() => handleImageHover(member.id, index)}
-              onMouseLeave={handleImageLeave}
-              onTouchStart={() => handleTouchStart(member.id, index)}
-              onTouchEnd={() => handleTouchEnd(index)}
-              onClick={() => handleMobileClick(member.id, index)}
-            >
-              <Image
-                src={member.image}
-                alt={member.alt}
-                width={120}
-                height={120}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  borderRadius: "6px",
-                }}
-              />
-            </div>
-          ))}
-
-          {/* Cursor following arrow overlay */}
-          <div ref={cursorArrowRef} className="cursor-arrow">
+          <div ref={cursorRef} className="cursor-indicator" aria-hidden>
             <svg
               width="24"
               height="24"
@@ -723,29 +670,64 @@ const TeamSection: React.FC = () => {
               />
             </svg>
           </div>
+          <Marquee className="marquee-row" repeat={3} pauseOnHover={false}>
+            {Array.from({ length: 3 }).flatMap((_, repeatIndex) =>
+              teamMembers.map((member, index) => (
+                <div
+                  key={`${member.id}-${repeatIndex}`}
+                  className="avatar-card"
+                  data-member-id={member.id}
+                  data-member-index={index}
+                  data-repeat-index={repeatIndex}
+                  onMouseEnter={() =>
+                    handleAvatarEnter(repeatIndex, index, member)
+                  }
+                  onMouseLeave={(e) => handleAvatarLeave(repeatIndex, e)}
+                >
+                  <Image
+                    src={member.image}
+                    alt={member.alt}
+                    width={100}
+                    height={100}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      pointerEvents: "none",
+                    }}
+                  />
+                </div>
+              ))
+            )}
+          </Marquee>
         </div>
 
-        {/* Profile Names Container */}
-        <div ref={profileNamesRef} className="profile-names">
-          {/* Default Name */}
-          <div ref={defaultNameRef} className="name default">
+        {/* Maglev Tooltip Component */}
+        <MaglevTooltip
+          position={tooltipPos}
+          activeMemberId={activeMemberId}
+          teamMembers={teamMembers}
+        />
+
+        <div className="profile-names">
+          <div
+            ref={defaultNameRef}
+            className={`name default`}
+            style={{ display: activeMemberId === null ? "flex" : "none" }}
+          >
             <h1>OUR SQUAD</h1>
           </div>
 
-          {/* Member Names */}
-          {teamMembers.map((member, index) => (
+          {teamMembers.map((member, idx) => (
             <div
               key={member.id}
               ref={(el) => {
-                nameRefs.current[index] = el;
+                nameRefs.current[idx] = el;
               }}
               className="name"
               style={{
-                display:
-                  currentHover === member.id ||
-                  currentMobileActive === member.id
-                    ? "flex"
-                    : "none",
+                display: activeMemberId === member.id ? "flex" : "none",
               }}
             >
               <h1>{member.name}</h1>
@@ -753,12 +735,11 @@ const TeamSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Styles */}
         <style jsx>{`
           .team {
             width: 100%;
             min-height: 100vh;
-            background: var(--background);
+            background: transparent;
             color: var(--foreground);
             display: flex;
             flex-direction: column;
@@ -768,22 +749,31 @@ const TeamSection: React.FC = () => {
             padding: 6rem 1rem;
             overflow-x: hidden;
           }
-
-          .profile-images {
+          .marquee-container {
+            width: 100%;
+            max-width: 100vw;
             display: flex;
-            gap: 18px;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            gap: 1.5rem;
             margin-bottom: 36px;
-            max-width: 900px;
-            flex-wrap: wrap;
+            overflow: visible;
+            padding: 80px 0;
             position: relative;
+          }
+          :global(.marquee-container.paused) :global(.marquee-row > div) {
+            animation-play-state: paused !important;
+          }
+          :global(.marquee-container) :global(.marquee-row) {
+            --gap: 1.5rem;
+            --duration: 75s;
             overflow: visible;
           }
-
-          .profile-images .image {
-            width: 120px;
-            height: 120px;
+          :global(.marquee-container) :global(.marquee-row > div) {
+            overflow: visible;
+          }
+          .avatar-card {
+            width: 100px;
+            height: 100px;
             padding: 5px;
             cursor: pointer;
             background: #1e2022;
@@ -791,41 +781,84 @@ const TeamSection: React.FC = () => {
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: box-shadow 0.3s ease, transform 0.2s ease;
             overflow: hidden;
+            flex-shrink: 0;
             position: relative;
             will-change: transform;
+            pointer-events: auto;
+            transform-origin: center center;
+            transition: box-shadow 0.3s ease;
           }
-
-          .profile-images .image:hover {
+          .avatar-card::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250%;
+            height: 250%;
+            pointer-events: none;
+            z-index: 10;
+            border-radius: 12px;
+          }
+          .avatar-card:hover {
             box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
           }
-
-          .cursor-arrow {
-            position: absolute;
+          :global(.animated-tooltip-bubble) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: black;
+            padding: 8px 16px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+              0 8px 10px -6px rgb(0 0 0 / 0.1);
+            position: relative;
+          }
+          .cursor-indicator {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 60px;
-            height: 60px;
-            background: rgba(34, 197, 94, 0.9);
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
+            background: rgba(34, 197, 94, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             pointer-events: none;
-            z-index: 30;
-            backdrop-filter: blur(4px);
+            z-index: 9999;
+            transform: translate(-50%, -50%) translateZ(0);
             box-shadow: 0 8px 32px rgba(34, 197, 94, 0.3);
             border: 1px solid rgba(34, 197, 94, 0.2);
           }
-
-          .cursor-arrow svg {
+          .cursor-indicator svg {
             width: 24px;
             height: 24px;
             transform: rotate(-45deg);
           }
-
+          @media (max-width: 900px) {
+            .cursor-indicator {
+              width: 44px;
+              height: 44px;
+            }
+            .cursor-indicator svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+          @media (max-width: 600px) {
+            .cursor-indicator {
+              width: 36px;
+              height: 36px;
+            }
+            .cursor-indicator svg {
+              width: 18px;
+              height: 18px;
+            }
+          }
           .profile-names {
             width: 100%;
             max-width: 1800px;
@@ -836,7 +869,6 @@ const TeamSection: React.FC = () => {
             flex-direction: column;
             align-items: center;
           }
-
           .profile-names .name {
             position: absolute;
             width: 100%;
@@ -849,7 +881,6 @@ const TeamSection: React.FC = () => {
             transform: translateX(-50%);
             height: 100%;
           }
-
           .profile-names .name h1 {
             font-size: clamp(6rem, 18vw, 12rem);
             font-weight: 900;
@@ -864,77 +895,56 @@ const TeamSection: React.FC = () => {
             line-height: 1;
             white-space: nowrap;
             overflow: visible;
+            will-change: transform, opacity;
           }
-
+          .profile-names .name h1 :global(.letter) {
+            will-change: transform, opacity;
+          }
           .profile-names .name.default h1 {
             color: var(--muted-foreground);
           }
-
-          .profile-names .name h1 :global(.letter) {
-            display: inline-block;
-            will-change: transform;
-            transform-origin: center bottom;
-          }
-
-          .profile-names .name h1 :global(.letter.space) {
-            width: 0.3em;
-          }
-
-          /* Mobile Responsive */
           @media (max-width: 900px) {
             .team {
-              flex-direction: column;
-              justify-content: flex-start;
               padding: 2rem 1rem;
               min-height: 60vh;
             }
-
-            .profile-images {
-              flex-wrap: wrap;
-              gap: 12px;
+            .marquee-container {
+              gap: 1rem;
               margin-bottom: 24px;
-              max-width: 100%;
             }
-
-            .profile-images .image {
-              width: 80px;
-              height: 80px;
-              cursor: pointer;
-              touch-action: manipulation;
-              -webkit-tap-highlight-color: transparent;
+            :global(.marquee-container) :global(.marquee-row) {
+              --gap: 1rem;
+              --duration: 60s;
             }
-
-            .cursor-arrow {
-              display: none; /* Hide cursor arrow on mobile */
+            .avatar-card {
+              width: 70px;
+              height: 70px;
             }
-
             .profile-names {
               height: 180px;
             }
-
             .profile-names .name h1 {
               font-size: clamp(3.75rem, 18vw, 6.75rem);
             }
           }
-
           @media (max-width: 600px) {
-            .profile-images {
-              gap: 8px;
+            .marquee-container {
+              gap: 0.75rem;
             }
-
-            .profile-images .image {
-              width: 60px;
-              height: 60px;
+            :global(.marquee-container) :global(.marquee-row) {
+              --gap: 0.75rem;
+              --duration: 45s;
             }
-
+            .avatar-card {
+              width: 50px;
+              height: 50px;
+            }
             .profile-names {
               height: 150px;
             }
           }
         `}</style>
       </div>
-    </>
+    </div>
   );
-};
-
-export default TeamSection;
+}

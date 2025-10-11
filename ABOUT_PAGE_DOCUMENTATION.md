@@ -14,13 +14,13 @@ This implementation creates a modern, animated "About Us" page for the GeeksForG
 - **Sponsorship & Acquisition**: Lead
 - **Graphics & Design Team**: Lead, Co-Lead, Associate
 - **Social Media Team**: Lead, Co-Lead
-- **DSA**: Lead
+- **DSA**: Lead, Co-Lead
 - **DevOps Team**: Lead, Co-Lead
 - **Web Dev Team**: Lead, Co-Lead
 - **IoT Team**: Lead, Co-Lead
 - **AI/ML Team**: Lead, Co-Lead
 - **Game Dev Team**: Lead, Co-Lead
-- **Creative & Reel Team**: Lead
+- **Creative & Reel Team**: Lead, co-Lead, Associate Lead
 
 ### 🎨 GSAP Animations
 
