@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import SnippetTicker from "./SnippetTicker";
+import { TransitionProvider, useTransition } from "./transition-context";
 
 const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   const router = useRouter();
@@ -79,6 +80,18 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   }, [router, pathname]);
 
   const coverPage = (url: string) => {
+    // prefer context-based signaling if available
+    try {
+      const ctx = (window as any).__TRANSITION_CTX__ as any;
+      if (ctx && typeof ctx.setTransitionActive === "function")
+        ctx.setTransitionActive(true);
+    } catch (e) {
+      /* ignore */
+    }
+    // fallback to global document class for compatibility
+    if (typeof document !== "undefined")
+      document.documentElement.classList.add("transition-active");
+
     const tl = gsap.timeline({
       onComplete: () => router.push(url),
     });
@@ -139,6 +152,7 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       duration: 0.15,
       ease: "power2.Out",
     }).add(() => setPlaySnippet(false));
+    // keep the class for the duration of timeline, will be removed in revealPage when animation completes
   };
 
   const revealPage = () => {
@@ -152,6 +166,17 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
       transformOrigin: "right",
       onComplete: () => {
         isTransitioning.current = false;
+        // prefer context update
+        try {
+          const ctx = (window as any).__TRANSITION_CTX__ as any;
+          if (ctx && typeof ctx.setTransitionActive === "function")
+            ctx.setTransitionActive(false);
+        } catch (e) {
+          /* ignore */
+        }
+        // fallback to global document class for compatibility
+        if (typeof document !== "undefined")
+          document.documentElement.classList.remove("transition-active");
       },
     });
   };
@@ -181,9 +206,31 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
           width: 100%;
         }
       `}</style>
-      {children}
+      <TransitionProvider>
+        {/* expose the provider's setter to window for the non-hook parts above */}
+        <TransitionConsumerExpose>{children}</TransitionConsumerExpose>
+      </TransitionProvider>
     </>
   );
 };
 
 export default PageTransition;
+
+// Small helper to expose the Transition context setter to window for non-hook code paths
+function TransitionConsumerExpose({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  try {
+    const { setTransitionActive } = useTransition();
+    // attach to window so the timeline functions can access it (safe fallback)
+    if (typeof window !== "undefined") {
+      (window as any).__TRANSITION_CTX__ = { setTransitionActive };
+    }
+  } catch (e) {
+    // ignore - if used outside provider, do nothing
+  }
+
+  return <>{children}</>;
+}

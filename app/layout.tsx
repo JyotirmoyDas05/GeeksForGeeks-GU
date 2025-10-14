@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import StickyFooterReveal from "@/components/ui/StickyFooterReveal";
 import "./globals.css";
 import PageTransition from "@/components/PageTransition";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -19,12 +21,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <CodeGlyphField className="glyph-bg" />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <PageTransition>
             <Nav />
-            {children}
+            <div className="main-content">{children}</div>
+            <StickyFooterReveal>
+              <Footer />
+            </StickyFooterReveal>
           </PageTransition>
         </ThemeProvider>
         <Analytics />

@@ -19,7 +19,10 @@ body {
 @import "tailwindcss";
 @import "tw-animate-css";
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle:wght@400&display=swap");
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
@@ -169,7 +172,8 @@ nav {
   height: 100svh;
   display: flex;
   pointer-events: none;
-  z-index: 2;
+  /* ensure the overlay sits above all page content (including footer) */
+  z-index: 99999;
 }
 
 .block {
@@ -186,13 +190,28 @@ nav {
   left: 0;
   width: 100vw;
   height: 100svh;
-  z-index: 2;
+  /* logo overlay should also be above footer during transitions */
+  z-index: 100000;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
   background-color: #222;
   opacity: 0;
+}
+
+/* Main content wrapper - no special styling needed for sticky footer reveal */
+.main-content {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* When a page transition is active, hide the footer to prevent flashes beneath the overlay */
+:root.transition-active footer,
+.transition-active footer {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .logo-container {
@@ -422,4 +441,26 @@ button:focus-visible,
 
 .animate-marquee-vertical {
   animation: marquee-vertical var(--duration) linear infinite;
+}
+
+/* Footer Styles - Figma Design */
+footer {
+  position: relative;
+  z-index: 5;
+}
+
+footer a {
+  font-family: "Manrope", sans-serif;
+  text-transform: none;
+  font-weight: 400;
+}
+
+footer h2,
+footer h3 {
+  font-family: "Manrope", sans-serif;
+}
+
+/* BBH Sans Bogle for large footer text */
+.footer-large-text {
+  font-family: "BBH Sans Bogle", sans-serif !important;
 }

@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactLenis from "lenis/react";
-import TextAnimation from "@/components/text-animation";
+import TextAnimation from "@/components/ui/text-animation";
 
 function page() {
   return (

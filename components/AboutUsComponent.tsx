@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ReactLenis from "lenis/react";
-import TextAnimation from "@/components/text-animation";
+import TextAnimation from "@/components/ui/text-animation";
 import { teamData, TeamGroup, Position, TeamMember } from "@/lib/teamData";
 
 // Register GSAP plugins

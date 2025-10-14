@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactLenis from "lenis/react";
-import TextAnimation from "@/components/text-animation";
+import TextAnimation from "@/components/ui/text-animation";
 import InlineLogo from "@/components/InlineLogo";
 import TeamSection from "@/components/TeamSection";
 import Image from "next/image";

@@ -933,7 +933,8 @@ export default function TeamSection() {
             }
             :global(.marquee-container) :global(.marquee-row) {
               --gap: 0.75rem;
-              --duration: 45s;
+              /* Increase duration to slow down marquee on small screens */
+              --duration: 90s;
             }
             .avatar-card {
               width: 50px;
