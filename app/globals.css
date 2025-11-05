@@ -23,6 +23,8 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle:wght@400&display=swap");
+@import url(https://db.onlinewebfonts.com/c/eccf30d3af8a69bf0b97f01c6d46b8e2?family=Agrandir+Grand+Heavy);
+@import url(https://db.onlinewebfonts.com/c/61d512c3f7f8d9cc4b4eb326d833f80c?family=Agrandir+Tight+Bold);
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
@@ -43,6 +45,38 @@ body {
   font-family: "DM Mono";
   src: url("/fonts/DM-Mono.woff2") format("woff2"),
     url("/fonts/DM-Mono.woff") format("woff");
+  font-display: swap;
+}
+
+/* Agrandir - explicit @font-face using OnlineWebFonts CDN
+   Added because the previous @import sometimes doesn't expose a usable
+   font-face in all environments (or can be blocked by CORS). The URLs
+   below point to the same font files referenced by the provider. If
+   you prefer to self-host, replace these with local paths in /public/fonts. */
+@font-face {
+  font-family: "Agrandir Grand Heavy";
+  src: url("https://db.onlinewebfonts.com/t/eccf30d3af8a69bf0b97f01c6d46b8e2.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/eccf30d3af8a69bf0b97f01c6d46b8e2.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/eccf30d3af8a69bf0b97f01c6d46b8e2.ttf")
+      format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Agrandir Tight Bold - subtext face */
+@font-face {
+  font-family: "Agrandir Tight Bold";
+  src: url("https://db.onlinewebfonts.com/t/61d512c3f7f8d9cc4b4eb326d833f80c.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/61d512c3f7f8d9cc4b4eb326d833f80c.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/61d512c3f7f8d9cc4b4eb326d833f80c.ttf")
+      format("truetype");
+  font-weight: 700 900;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -449,18 +483,31 @@ footer {
   z-index: 5;
 }
 
+/* Footer anchors should inherit font unless explicitly overridden.
+   Specific footer elements (large branding) are scoped below to use Agrandir. */
 footer a {
-  font-family: "Manrope", sans-serif;
-  text-transform: none;
-  font-weight: 400;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: inherit;
 }
+
+/* Footer subtext (one line under large title) */
+/* Scoped footer branding: only elements inside .footer-large-branding use Agrandir */
+.footer-large-branding .footer-subtext {
+  font-family: "Agrandir Tight Bold", "Agrandir Grand Heavy", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
 
 footer h2,
 footer h3 {
   font-family: "Manrope", sans-serif;
 }
 
-/* BBH Sans Bogle for large footer text */
-.footer-large-text {
-  font-family: "BBH Sans Bogle", sans-serif !important;
+/* Agrandir Grand Heavy for large footer text */
+.footer-large-branding .footer-large-text {
+  font-family: "Agrandir Grand Heavy", sans-serif;
+  font-weight: 700;
 }
