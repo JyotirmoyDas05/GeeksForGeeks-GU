@@ -1,3 +1,7 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
 /* Hide scrollbars but preserve scrolling */
 /* For modern browsers */
 html,
@@ -16,16 +20,6 @@ body {
 body {
   overflow: auto;
 }
-@import "tailwindcss";
-@import "tw-animate-css";
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty:wght@400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle:wght@400&display=swap");
-@import url(https://db.onlinewebfonts.com/c/eccf30d3af8a69bf0b97f01c6d46b8e2?family=Agrandir+Grand+Heavy);
-@import url(https://db.onlinewebfonts.com/c/61d512c3f7f8d9cc4b4eb326d833f80c?family=Agrandir+Tight+Bold);
-@custom-variant dark (&:is(.dark *));
 
 @font-face {
   font-family: "Broadway-font";
@@ -90,6 +84,51 @@ body {
   font-family: "Manrope", sans-serif;
   background: var(--background);
   color: var(--foreground);
+  overflow-x: clip; /* Prevent horizontal scroll from transforms */
+}
+
+/* Global page container - symmetric gutters for all sections */
+.page-container {
+  width: 100%;
+  max-width: 1280px; /* ~80rem */
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem); /* 16px to 48px responsive */
+  box-sizing: border-box;
+}
+
+/* Animated separator line - draws from left to right on load */
+@keyframes line-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-line-draw {
+  transform-origin: left;
+  animation: line-draw 0.8s ease-out forwards;
+}
+
+.animate-line-draw-delayed {
+  transform-origin: left;
+  animation: line-draw 0.8s ease-out 0.3s forwards;
+  transform: scaleX(0); /* Start hidden, animate after delay */
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-line-draw,
+  .animate-line-draw-delayed {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+/* Performance hints for animated elements */
+.will-change-transform {
+  will-change: transform;
 }
 
 img {
@@ -499,7 +538,6 @@ footer a {
   letter-spacing: -0.02em;
   color: var(--foreground);
 }
-
 
 footer h2,
 footer h3 {

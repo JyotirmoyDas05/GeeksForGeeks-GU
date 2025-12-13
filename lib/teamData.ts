@@ -2,6 +2,7 @@
 export interface TeamMember {
   name: string;
   photo: string;
+  role: string;
   bio?: string;
   techStack?: string[];
   social?: {
@@ -23,7 +24,7 @@ export interface TeamGroup {
   color?: string; // Theme color for the group
 }
 
-// Dummy team data following the hierarchy structure
+// Complete team data with all 40 members from TeamSection.tsx
 export const teamData: TeamGroup[] = [
   {
     group: "Leadership",
@@ -31,29 +32,21 @@ export const teamData: TeamGroup[] = [
     color: "#10b981",
     positions: [
       {
-        title: "GFG Lead",
+        title: "Campus Lead",
         member: {
-          name: "Priya Sharma",
-          photo: "/team/priya.jpg",
+          name: "Simanta",
+          photo: "/simanta.jpg",
+          role: "Campus Lead",
           bio: "Leading the GeeksForGeeks chapter with passion for technology and community building.",
-          techStack: ["Leadership", "Strategy", "Community Building"],
-          social: {
-            linkedin: "https://linkedin.com/in/priya",
-            github: "https://github.com/priya",
-          },
         },
       },
       {
         title: "Technical Lead",
         member: {
-          name: "Arjun Patel",
-          photo: "/team/arjun.jpg",
+          name: "Nitin",
+          photo: "/nitin.jpg",
+          role: "Technical Lead",
           bio: "Overseeing all technical initiatives and mentoring developers across teams.",
-          techStack: ["Full Stack", "System Design", "Mentoring"],
-          social: {
-            linkedin: "https://linkedin.com/in/arjun",
-            github: "https://github.com/arjun",
-          },
         },
       },
     ],
@@ -66,22 +59,46 @@ export const teamData: TeamGroup[] = [
       {
         title: "PR Lead",
         member: {
-          name: "Kavya Singh",
-          photo: "/team/kavya.jpg",
+          name: "Priyam",
+          photo: "/priyam.jpg",
+          role: "PR Lead",
           bio: "Managing public relations and external communications.",
-          techStack: ["Communication", "Marketing", "Event Planning"],
-          social: {
-            linkedin: "https://linkedin.com/in/kavya",
-          },
+        },
+      },
+      {
+        title: "PR Co-lead",
+        member: {
+          name: "Dawar",
+          photo: "/Dawar.jpeg",
+          role: "PR Co-lead",
+          bio: "Supporting PR initiatives and community outreach programs.",
+        },
+      },
+      {
+        title: "PR Co-lead",
+        member: {
+          name: "Vrishank",
+          photo: "/vrishank.jpg",
+          role: "PR Co-lead",
+          bio: "Supporting PR initiatives and community outreach programs.",
+        },
+      },
+      {
+        title: "PR Associate Lead",
+        member: {
+          name: "Sagarika",
+          photo: "/Sagarika.jpeg",
+          role: "PR Associate Lead",
+          bio: "Assisting with PR campaigns and external partnerships.",
         },
       },
       {
         title: "PR Associate",
         member: {
-          name: "Rohit Kumar",
-          photo: "/team/rohit.jpg",
-          bio: "Supporting PR initiatives and community outreach programs.",
-          techStack: ["Content Writing", "Social Media", "Outreach"],
+          name: "Mandeep",
+          photo: "/mandeep.jpg",
+          role: "PR Associate",
+          bio: "Contributing to public relations and outreach efforts.",
         },
       },
     ],
@@ -94,269 +111,361 @@ export const teamData: TeamGroup[] = [
       {
         title: "Event Lead",
         member: {
-          name: "Sneha Reddy",
-          photo: "/team/sneha.jpg",
+          name: "Dhritee",
+          photo: "/dhritee_.jpg",
+          role: "Event Lead",
           bio: "Orchestrating technical events and workshops for the community.",
-          techStack: ["Event Management", "Logistics", "Coordination"],
+        },
+      },
+      {
+        title: "Event Co-lead",
+        member: {
+          name: "Debakalpa",
+          photo: "/Debakalpa.jpg",
+          role: "Event Co-lead",
+          bio: "Assisting in event planning and execution.",
+        },
+      },
+      {
+        title: "Event Co-lead",
+        member: {
+          name: "Jyotishman",
+          photo: "/jyotishman.jpg",
+          role: "Event Co-lead",
+          bio: "Assisting in event planning and coordination.",
         },
       },
       {
         title: "Event Associate",
         member: {
-          name: "Vikram Joshi",
-          photo: "/team/vikram.jpg",
-          bio: "Assisting in event planning and execution.",
-          techStack: ["Planning", "Execution", "Team Coordination"],
-        },
-      },
-    ],
-  },
-  {
-    group: "Sponsorship & Acquisition",
-    priority: 4,
-    color: "#06b6d4",
-    positions: [
-      {
-        title: "Sponsorship & Acquisition Lead",
-        member: {
-          name: "Ananya Gupta",
-          photo: "/team/ananya.jpg",
-          bio: "Building partnerships and securing sponsorships for events.",
-          techStack: ["Business Development", "Partnership", "Negotiation"],
+          name: "Sarangapani",
+          photo: "/Sarangapani.jpg",
+          role: "Event Associate",
+          bio: "Contributing to event organization and management.",
         },
       },
     ],
   },
   {
     group: "Graphics & Design Team",
-    priority: 5,
+    priority: 4,
     color: "#ec4899",
     positions: [
       {
         title: "Graphics & Design Lead",
         member: {
-          name: "Ravi Verma",
-          photo: "/team/ravi.jpg",
+          name: "Nahid",
+          photo: "/Nahid.jpg",
+          role: "Graphics & Design Lead",
           bio: "Leading visual design and branding initiatives.",
-          techStack: ["Adobe Creative Suite", "UI/UX", "Branding"],
         },
       },
       {
-        title: "Co-Lead",
+        title: "Graphics & Design Co-lead",
         member: {
-          name: "Meera Shah",
-          photo: "/team/meera.jpg",
+          name: "Garima",
+          photo: "/garima.jpg",
+          role: "Graphics & Design Co-lead",
           bio: "Supporting design projects and creative direction.",
-          techStack: ["Figma", "Illustrator", "Creative Direction"],
         },
       },
       {
-        title: "Associate",
+        title: "Graphics & Design Co-lead",
         member: {
-          name: "Karthik Rao",
-          photo: "/team/karthik.jpg",
+          name: "Shruti",
+          photo: "/Shruti.jpg",
+          role: "Graphics & Design Co-lead",
+          bio: "Supporting design projects and creative direction.",
+        },
+      },
+      {
+        title: "Graphics & Design Associate",
+        member: {
+          name: "Neelim",
+          photo: "/neelim.jpg",
+          role: "Graphics & Design Associate",
           bio: "Creating visual content and supporting design tasks.",
-          techStack: ["Photoshop", "Canva", "Visual Design"],
+        },
+      },
+      {
+        title: "Graphics & Design Associate",
+        member: {
+          name: "Parisa",
+          photo: "/parisa.jpg",
+          role: "Graphics & Design Associate",
+          bio: "Creating visual content and supporting design tasks.",
         },
       },
     ],
   },
   {
     group: "Social Media Team",
-    priority: 6,
+    priority: 5,
     color: "#84cc16",
     positions: [
       {
         title: "Social Media Lead",
         member: {
-          name: "Pooja Agarwal",
-          photo: "/team/pooja.jpg",
+          name: "Prajnan",
+          photo: "/prajnan.jpg",
+          role: "Social Media Lead",
           bio: "Managing social media presence and digital marketing.",
-          techStack: [
-            "Social Media Marketing",
-            "Content Strategy",
-            "Analytics",
-          ],
         },
       },
       {
-        title: "Co-Lead",
+        title: "Social Media Co-lead",
         member: {
-          name: "Amit Sharma",
-          photo: "/team/amit.jpg",
+          name: "Dibyajyoti",
+          photo: "/Dibyajyoti.jpg",
+          role: "Social Media Co-lead",
           bio: "Supporting social media campaigns and content creation.",
-          techStack: [
-            "Content Creation",
-            "Community Management",
-            "Digital Marketing",
-          ],
         },
       },
     ],
   },
   {
-    group: "DSA",
-    priority: 7,
+    group: "DSA Team",
+    priority: 6,
     color: "#6366f1",
     positions: [
       {
         title: "DSA Lead",
         member: {
-          name: "Nisha Malhotra",
-          photo: "/team/nisha.jpg",
+          name: "Diya",
+          photo: "/Diya.jpg",
+          role: "DSA Lead",
           bio: "Teaching data structures and algorithms to the community.",
-          techStack: [
-            "Data Structures",
-            "Algorithms",
-            "Competitive Programming",
-            "Teaching",
-          ],
         },
       },
     ],
   },
   {
     group: "DevOps Team",
-    priority: 8,
+    priority: 7,
     color: "#ef4444",
     positions: [
       {
         title: "DevOps Lead",
         member: {
-          name: "Suresh Krishnan",
-          photo: "/team/suresh.jpg",
+          name: "Ankita",
+          photo: "/ankita.jpg",
+          role: "DevOps Lead",
           bio: "Managing infrastructure and deployment pipelines.",
-          techStack: ["Docker", "Kubernetes", "AWS", "CI/CD"],
         },
       },
       {
-        title: "Co-Lead",
+        title: "DevOps Lead",
         member: {
-          name: "Deepika Nair",
-          photo: "/team/deepika.jpg",
-          bio: "Supporting cloud infrastructure and automation.",
-          techStack: ["Azure", "Terraform", "Jenkins", "Monitoring"],
+          name: "Pragyan",
+          photo: "/pragyan.jpg",
+          role: "DevOps Lead",
+          bio: "Managing infrastructure and automation.",
+        },
+      },
+      {
+        title: "DevOps Co-lead",
+        member: {
+          name: "Jyotirmoy",
+          photo: "/jyotirmoy.jpeg",
+          role: "DevOps Co-lead",
+          bio: "Supporting cloud infrastructure and CI/CD pipelines.",
         },
       },
     ],
   },
   {
-    group: "Web Dev Team",
-    priority: 9,
+    group: "Developer Team",
+    priority: 8,
     color: "#0ea5e9",
     positions: [
       {
-        title: "Web Dev Lead",
+        title: "Developer Lead",
         member: {
-          name: "Rahul Mishra",
-          photo: "/team/rahul.jpg",
+          name: "Gaurab",
+          photo: "/gaurav.jpg",
+          role: "Developer Lead",
           bio: "Leading web development projects and mentoring developers.",
-          techStack: ["React", "Next.js", "Node.js", "TypeScript"],
         },
       },
       {
-        title: "Co-Lead",
+        title: "Developer Co-lead",
         member: {
-          name: "Priyanka Das",
-          photo: "/team/priyanka.jpg",
+          name: "Muskan",
+          photo: "/Muskan.jpg",
+          role: "Developer Co-lead",
           bio: "Supporting full-stack development and code reviews.",
-          techStack: ["Vue.js", "Express.js", "MongoDB", "GraphQL"],
+        },
+      },
+      {
+        title: "Developer Co-lead",
+        member: {
+          name: "Sahid",
+          photo: "/sahid.jpg",
+          role: "Developer Co-lead",
+          bio: "Supporting web development projects and team coordination.",
         },
       },
     ],
   },
   {
-    group: "IoT Team",
-    priority: 10,
+    group: "Robotics & IoT Team",
+    priority: 9,
     color: "#f97316",
     positions: [
       {
-        title: "IoT Lead",
+        title: "Robotics & IoT Lead",
         member: {
-          name: "Sanjay Pillai",
-          photo: "/team/sanjay.jpg",
-          bio: "Exploring Internet of Things and embedded systems.",
-          techStack: ["Arduino", "Raspberry Pi", "Sensors", "Embedded C"],
+          name: "Denim",
+          photo: "/denim_d.jpg",
+          role: "Robotics & IoT Lead",
+          bio: "Leading IoT and robotics initiatives.",
         },
       },
       {
-        title: "Co-Lead",
+        title: "Robotics & IoT Lead",
         member: {
-          name: "Lakshmi Iyer",
-          photo: "/team/lakshmi.jpg",
-          bio: "Working on IoT projects and hardware integration.",
-          techStack: ["ESP32", "MQTT", "LoRa", "Circuit Design"],
+          name: "Mriganga",
+          photo: "/Mriganga_.jpg",
+          role: "Robotics & IoT Lead",
+          bio: "Leading robotics and embedded systems projects.",
+        },
+      },
+      {
+        title: "Robotics & IoT Co-lead",
+        member: {
+          name: "Bitopan",
+          photo: "/bitopan.jpg",
+          role: "Robotics & IoT Co-lead",
+          bio: "Supporting IoT projects and hardware integration.",
+        },
+      },
+      {
+        title: "Robotics & IoT Co-lead",
+        member: {
+          name: "Diya",
+          photo: "/Diya-3rd-sem.jpg",
+          role: "Robotics & IoT Co-lead",
+          bio: "Working on IoT projects and automation.",
         },
       },
     ],
   },
   {
     group: "AI/ML Team",
-    priority: 11,
+    priority: 10,
     color: "#8b5cf6",
     positions: [
       {
         title: "AI/ML Lead",
         member: {
-          name: "Vivek Tiwari",
-          photo: "/team/vivek.jpg",
+          name: "Bhargab",
+          photo: "/bhargav.jpg",
+          role: "AI/ML Lead",
           bio: "Leading artificial intelligence and machine learning initiatives.",
-          techStack: ["Python", "TensorFlow", "PyTorch", "Data Science"],
         },
       },
       {
-        title: "Co-Lead",
+        title: "AI/ML Lead",
         member: {
-          name: "Riya Bansal",
-          photo: "/team/riya.jpg",
+          name: "Sampurna",
+          photo: "/Sampurna.jpg",
+          role: "AI/ML Lead",
+          bio: "Leading machine learning projects and research.",
+        },
+      },
+      {
+        title: "AI/ML Co-lead",
+        member: {
+          name: "Tanmoy",
+          photo: "/tanmoy_.jpg",
+          role: "AI/ML Co-lead",
           bio: "Working on ML models and data analysis projects.",
-          techStack: ["Scikit-learn", "Pandas", "NumPy", "Computer Vision"],
         },
       },
     ],
   },
   {
     group: "Game Dev Team",
-    priority: 12,
+    priority: 11,
     color: "#10b981",
     positions: [
       {
         title: "Game Dev Lead",
         member: {
-          name: "Aditya Khanna",
-          photo: "/team/aditya.jpg",
+          name: "Uddipta",
+          photo: "/uddipta.jpg",
+          role: "Game Dev Lead",
           bio: "Creating engaging games and interactive experiences.",
-          techStack: ["Unity", "C#", "Game Design", "3D Modeling"],
         },
       },
       {
-        title: "Co-Lead",
+        title: "Game Dev Co-lead",
         member: {
-          name: "Shweta Raj",
-          photo: "/team/shweta.jpg",
-          bio: "Supporting game development and level design.",
-          techStack: ["Unreal Engine", "Blender", "Animation", "Level Design"],
+          name: "Bhairab",
+          photo: "/bhairab.jpg",
+          role: "Game Dev Co-lead",
+          bio: "Supporting game development and design.",
         },
       },
     ],
   },
   {
-    group: "Creative & Reel Team",
-    priority: 13,
+    group: "Reels & Content Team",
+    priority: 12,
     color: "#ec4899",
     positions: [
       {
-        title: "Creative & Reel Lead",
+        title: "Reels & Content Associate Lead",
         member: {
-          name: "Aryan Singh",
-          photo: "/team/aryan.jpg",
+          name: "Jupitora",
+          photo: "/jupitora.jpg",
+          role: "Reels & Content Associate Lead",
           bio: "Creating engaging video content and creative campaigns.",
-          techStack: [
-            "Video Editing",
-            "After Effects",
-            "Creative Direction",
-            "Storytelling",
-          ],
+        },
+      },
+      {
+        title: "Reels & Content Associate Lead",
+        member: {
+          name: "Nishita",
+          photo: "/Nishita.jpg",
+          role: "Reels & Content Associate Lead",
+          bio: "Supporting video content creation.",
+        },
+      },
+      {
+        title: "Reels & Content Associate Lead",
+        member: {
+          name: "Prachi",
+          photo: "/prachi.jpg",
+          role: "Reels & Content Associate Lead",
+          bio: "Creating creative content and campaigns.",
+        },
+      },
+      {
+        title: "Reels & Content Associate Lead",
+        member: {
+          name: "Pritom",
+          photo: "/pritom.jpg",
+          role: "Reels & Content Associate Lead",
+          bio: "Supporting content creation and editing.",
+        },
+      },
+      {
+        title: "Reels & Content Associate Lead",
+        member: {
+          name: "Tanbir",
+          photo: "/tanbir.jpg",
+          role: "Reels & Content Associate Lead",
+          bio: "Creating engaging reels and content.",
+        },
+      },
+      {
+        title: "Reels & Content Associate Lead",
+        member: {
+          name: "Taniya",
+          photo: "/taniya.jpg",
+          role: "Reels & Content Associate Lead",
+          bio: "Supporting video production and storytelling.",
         },
       },
     ],
@@ -373,4 +482,9 @@ export const getAllMembers = (): TeamMember[] => {
 // Helper function to get team by priority
 export const getTeamsByPriority = (): TeamGroup[] => {
   return teamData.sort((a, b) => a.priority - b.priority);
+};
+
+// Get total member count
+export const getTotalMemberCount = (): number => {
+  return teamData.reduce((acc, group) => acc + group.positions.length, 0);
 };

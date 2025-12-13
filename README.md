@@ -55,8 +55,7 @@ gdg-gu/
 
 ### Prerequisites
 
-- Node.js 18+
-- npm, yarn, pnpm, or bun
+- [Bun](https://bun.sh) 1.0+ (replaces Node.js & npm/ you should too)
 
 ### Installation
 
@@ -70,31 +69,23 @@ cd gdg-gu
 2. Install dependencies:
 
 ```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
+bun install
 ```
 
 3. Run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+bun dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ## 📝 Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build production application
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint for code quality
+- `bun dev` - Start development server
+- `bun run build` - Build production application
+- `bun start` - Start production server
+- `bun run lint` - Run ESLint for code quality
 
 ## 🎨 Customization
 
