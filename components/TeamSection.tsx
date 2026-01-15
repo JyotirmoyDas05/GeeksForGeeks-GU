@@ -448,8 +448,7 @@ export default function TeamSection() {
   };
 
   const handleAvatarEnter = (
-    repeatIndex: number,
-    index: number,
+    e: React.MouseEvent<HTMLDivElement>,
     member: TeamMember
   ) => {
     if (leaveTimeoutRef.current) {
@@ -459,81 +458,92 @@ export default function TeamSection() {
 
     setPaused(true);
 
-    const group = Array.from(
-      document.querySelectorAll<HTMLDivElement>(
-        `.avatar-card[data-repeat-index='${repeatIndex}']`
-      )
+    // Get all avatar cards
+    const allCards = Array.from(
+      document.querySelectorAll<HTMLDivElement>(`.avatar-card`)
     );
 
-    group.forEach((card, i) => {
-      if (i === index) {
-        if (hoveredAvatarRef.current && hoveredAvatarRef.current !== card) {
-          hoveredAvatarRef.current.removeAttribute("data-hovered");
-        }
+    // Use the actual element that was hovered (currentTarget is the element with the event listener)
+    const hoveredCard = e.currentTarget;
 
-        hoveredAvatarRef.current = card;
-        hoveredMemberIdRef.current = member.id;
-        card.setAttribute("data-hovered", "true");
+    if (hoveredCard) {
+      if (
+        hoveredAvatarRef.current &&
+        hoveredAvatarRef.current !== hoveredCard
+      ) {
+        hoveredAvatarRef.current.removeAttribute("data-hovered");
+      }
 
-        setActiveMemberId(member.id);
+      hoveredAvatarRef.current = hoveredCard;
+      hoveredMemberIdRef.current = member.id;
+      hoveredCard.setAttribute("data-hovered", "true");
 
-        const rect = card.getBoundingClientRect();
-        const initialPointer = {
-          x: rect.left + rect.width / 2,
-          y: rect.top,
-        };
+      setActiveMemberId(member.id);
 
-        lastCursorRef.current = initialPointer;
-        updateTooltipPosition(initialPointer);
-        startTooltipTracking();
+      const rect = hoveredCard.getBoundingClientRect();
+      const initialPointer = {
+        x: rect.left + rect.width / 2,
+        y: rect.top,
+      };
 
-        gsap.to(card, {
-          scale: 2,
-          x: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          zIndex: 20,
-          onUpdate: () => {
-            updateTooltipPosition();
-          },
-        });
+      lastCursorRef.current = initialPointer;
+      updateTooltipPosition(initialPointer);
+      startTooltipTracking();
 
-        if (cursorRef.current) {
-          gsap.to(cursorRef.current, {
-            scale: 1,
-            opacity: 1,
-            duration: 0.22,
-            ease: "back.out(1.7)",
-          });
-        }
-      } else {
-        const slide = i < index ? -60 : 60;
-        gsap.to(card, {
-          scale: 0.75,
-          x: slide,
-          duration: 0.6,
-          ease: "power2.out",
-          zIndex: 1,
+      gsap.to(hoveredCard, {
+        scale: 2,
+        x: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        zIndex: 20,
+        onUpdate: () => {
+          updateTooltipPosition();
+        },
+      });
+
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.22,
+          ease: "back.out(1.7)",
         });
       }
-    });
+
+      // Scale down and slide adjacent cards
+      const cardIndex = allCards.indexOf(hoveredCard);
+      allCards.forEach((card, i) => {
+        if (card !== hoveredCard) {
+          const distance = Math.abs(i - cardIndex);
+          // Slide all cards with intensity based on distance
+          const maxSlide = 60;
+          const slide = i < cardIndex ? -maxSlide : maxSlide;
+          // Cards further away get progressively less scaling
+          const scale = Math.max(0.75, 1 - distance * 0.05);
+
+          gsap.to(card, {
+            scale: scale,
+            x: slide,
+            duration: 0.6,
+            ease: "power2.out",
+            zIndex: 1,
+          });
+        }
+      });
+    }
   };
 
-  const handleAvatarLeave = (
-    repeatIndex: number,
-    e: React.MouseEvent<HTMLDivElement>
-  ) => {
+  const handleAvatarLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const related = e.relatedTarget as HTMLElement | null;
     if (
       related &&
       "classList" in related &&
-      related.classList.contains("avatar-card") &&
-      related.getAttribute("data-repeat-index") === String(repeatIndex)
+      related.classList.contains("avatar-card")
     ) {
-      return; // still inside same group
+      return; // still hovering over an avatar card
     }
 
-    // debounce the reset slightly to avoid jitter when moving quickly between duplicates
+    // debounce the reset slightly to avoid jitter when moving quickly between cards
     if (leaveTimeoutRef.current) {
       clearTimeout(leaveTimeoutRef.current);
     }
@@ -549,12 +559,12 @@ export default function TeamSection() {
       hoveredMemberIdRef.current = null;
       lastCursorRef.current = null;
       setTooltipPos(null);
-      const group = Array.from(
-        document.querySelectorAll<HTMLDivElement>(
-          `.avatar-card[data-repeat-index='${repeatIndex}']`
-        )
+
+      // Reset all avatar cards
+      const allCards = Array.from(
+        document.querySelectorAll<HTMLDivElement>(`.avatar-card`)
       );
-      group.forEach((card) =>
+      allCards.forEach((card) =>
         gsap.to(card, {
           scale: 1,
           x: 0,
@@ -563,6 +573,7 @@ export default function TeamSection() {
           zIndex: 1,
         })
       );
+
       // hide cursor slowly when leaving marquee
       if (cursorRef.current) {
         gsap.to(cursorRef.current, {
@@ -671,35 +682,30 @@ export default function TeamSection() {
             </svg>
           </div>
           <Marquee className="marquee-row" repeat={3} pauseOnHover={false}>
-            {Array.from({ length: 3 }).flatMap((_, repeatIndex) =>
-              teamMembers.map((member, index) => (
-                <div
-                  key={`${member.id}-${repeatIndex}`}
-                  className="avatar-card"
-                  data-member-id={member.id}
-                  data-member-index={index}
-                  data-repeat-index={repeatIndex}
-                  onMouseEnter={() =>
-                    handleAvatarEnter(repeatIndex, index, member)
-                  }
-                  onMouseLeave={(e) => handleAvatarLeave(repeatIndex, e)}
-                >
-                  <Image
-                    src={member.image}
-                    alt={member.alt}
-                    width={100}
-                    height={100}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      pointerEvents: "none",
-                    }}
-                  />
-                </div>
-              ))
-            )}
+            {teamMembers.map((member, index) => (
+              <div
+                key={member.id}
+                className="avatar-card"
+                data-member-id={member.id}
+                data-member-index={index}
+                onMouseEnter={(e) => handleAvatarEnter(e, member)}
+                onMouseLeave={(e) => handleAvatarLeave(e)}
+              >
+                <Image
+                  src={member.image}
+                  alt={member.alt}
+                  width={100}
+                  height={100}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                    pointerEvents: "none",
+                  }}
+                />
+              </div>
+            ))}
           </Marquee>
         </div>
 
